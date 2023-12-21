@@ -1,0 +1,23 @@
+/* this makes #map take up the whole screen */
+#map {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    overflow: hidden;
+    padding: 0;
+}
+
+/* county polygons */
+path.leaflet-interactive {
+    stroke: black;
+    stroke-width: 1;
+    fill-opacity: 0;
+    cursor: grab;
+}
+
+.leaflet-popup-content p {
+    font-size: 1em;
+    margin: 0.5em 0;
+}
