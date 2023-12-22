@@ -37,20 +37,12 @@
         // https://leafletjs.com/examples/geojson/example.html
         function onEachFeature(feature, layer) {
             let popupContent =
-                    "<h3>" +
-                    feature.properties.locName +
-                    "</h3>" +
-                    // "<p><b>ID: " +
-                    // feature.properties.locId +
-                    // "</b></p>"+
-                    "<p><b># species: " +
-                    feature.properties.numSpeciesAllTime +
-                    "</b></p>" +
-                    '<p><b><a target="_blank" href="' +
-                    feature.properties.locId +
-                    '">' +
-                    "Show target species" +
-                    "</a></b></p>";
+                    `<h3>${feature.properties.locName}</h3>
+                    <p><b># species: ${feature.properties.numSpeciesAllTime}</b></p>
+                    <p><b><a class="needslink" target="_blank"
+                        href="${feature.properties.locId}">
+                        Show target species
+                    </a></b></p>`;
 
             layer.bindPopup(popupContent);
         }
