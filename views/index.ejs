@@ -32,9 +32,7 @@
         let co_bnds = new L.GeoJSON.AJAX("County_Boundaries_24K.geojson");
         co_bnds.addTo(map);
 
-        // fucntion to display point id, stand, and forest on click;
-        // based on page source on:
-        // https://leafletjs.com/examples/geojson/example.html
+        // fucntion to display hotspot name, n species reported, and link to open hotspot needs
         function onEachFeature(feature, layer) {
             let popupContent =
                     `<h3>${feature.properties.locName}</h3>
