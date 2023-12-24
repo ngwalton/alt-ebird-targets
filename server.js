@@ -27,7 +27,8 @@ async function get_ebird_data(url) {
 // function to download hotspot geographic data
 let region = 'US-WI-055';
 async function get_hotspots(region_code) {
-    let hotspots_url = `https://api.ebird.org/v2/ref/hotspot/${region_code}?fmt=json`;
+    let hotspots_url =
+        `https://api.ebird.org/v2/ref/hotspot/${region_code}?fmt=json`;
     let hotspots_array = await get_ebird_data(hotspots_url);
 
     let hotspot_geo = {
@@ -81,14 +82,19 @@ app.get('/L*+', async (req, res) => {
 
     // get the taxon list limited to the species in hotspot_needs
     const species_pattern = hotspot_needs.reduce((a, b) => a + ',' + b);
-    const taxon_url = `https://api.ebird.org/v2/ref/taxonomy/ebird?species=${species_pattern}&version=2023.0&fmt=json`;
+    const taxon_url =
+        'https://api.ebird.org/v2/ref/taxonomy/ebird?species=' +
+        species_pattern + '&version=2023.0&fmt=json';
 
     const taxon_raw = await get_ebird_data(taxon_url);
+    // for taxonomic sort add x['taxonOrder'], but should already be in
+    // taxonomic order 
     let taxon = taxon_raw
         .filter(x => x.category === 'species')
         .map(x => {
-            return {'sciName': x['sciName'], 'comName': x['comName'], 'speciesCode': x['speciesCode']}
-    });  // for taxonomic sort use x['taxonOrder'], but should be in taxonomic order already
+            return {'sciName': x['sciName'], 'comName': x['comName'],
+            'speciesCode': x['speciesCode']}
+    });
 
     taxon = JSON.stringify(taxon);
 
@@ -103,4 +109,5 @@ app.get('/', async (req, res) => {
     res.render('index', {hotspot_geo: hotspot_geo});
 });
 
-app.listen(process.env.PORT, () => console.log(`Server listening on port ${process.env.PORT}`));
+app.listen(process.env.PORT, () =>
+    console.log(`Server listening on port ${process.env.PORT}`));
