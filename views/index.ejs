@@ -17,6 +17,7 @@
     <script src="leaflet.ajax.min.js"></script>
 </head>
 <body>
+    <div id="targets">Select a hotspot</div>
     <div id="map"></div>
 
     <script>
@@ -41,14 +42,38 @@
         let co_bnds = new L.GeoJSON.AJAX("County_Boundaries_24K.geojson");
         co_bnds.addTo(map);
 
+        // function to parse ebird species object and format as html
+        function parse_species(needs_obj) {
+            let res = '';
+            for (const sp of needs_obj) {
+                res += `<p>${sp.comName} (${sp.sciName})</p>`;
+            };
+
+            return res;
+        }
+
+        // function to fetch target species for selected hotspot
+        async function get_needs(loc_id) {
+            try {
+                const res = await fetch(loc_id);
+                const needs = await res.json();
+                const dest = document.querySelector("#targets");
+                dest.innerHTML = parse_species(needs);
+            } catch (e) {
+                console.log(e);
+            } finally {
+                console.log("Getting data for: " + loc_id);
+            }
+        }
+
         // fucntion to display hotspot name, n species reported, and link to
         // open hotspot needs
         function onEachFeature(feature, layer) {
             let popupContent =
                 `<h3>${feature.properties.locName}</h3>
                 <p><b># species: ${feature.properties.numSpeciesAllTime}</b></p>
-                <p><b><a class="needslink" target="_blank"
-                    href="${feature.properties.locId}">
+                <p><b><a class="needslink"
+                    onclick='get_needs("${feature.properties.locId}");'>
                     Show target species
                 </a></b></p>`;
 

@@ -21,3 +21,14 @@ path.leaflet-interactive {
     font-size: 1em;
     margin: 0.5em 0;
 }
+
+#targets {
+    position: fixed;
+    max-height: 90%;
+    background-color: white;
+    z-index: 999;
+    overflow-y: scroll;
+    margin: 1rem;
+    padding: 1rem;
+    font-size: 0.9em;
+}
