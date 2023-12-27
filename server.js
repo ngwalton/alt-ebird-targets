@@ -66,7 +66,7 @@ app.use(express.static('public'));
 // use ejs as the view manager
 app.set('view engine', 'ejs');
 
-// requesting hotspot needs
+// requesting hotspot targets
 app.get('/L*+', async (req, res) => {
     // get the hotspot species list
     const hotspot_id = req["url"];  // includes a forward slash at the beginning
@@ -78,10 +78,10 @@ app.get('/L*+', async (req, res) => {
     const county_list = await get_ebird_data(county_url);
 
     // remove species from county_list that are in hotspot_list
-    const hotspot_needs = county_list.filter(x => !hotspot_list.includes(x));
+    const hotspot_targets = county_list.filter(x => !hotspot_list.includes(x));
 
-    // get the taxon list limited to the species in hotspot_needs
-    const species_pattern = hotspot_needs.reduce((a, b) => a + ',' + b);
+    // get the taxon list limited to the species in hotspot_targets
+    const species_pattern = hotspot_targets.reduce((a, b) => a + ',' + b);
     const taxon_url =
         'https://api.ebird.org/v2/ref/taxonomy/ebird?species=' +
         species_pattern + '&version=2023.0&fmt=json';

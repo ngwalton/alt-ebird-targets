@@ -43,9 +43,9 @@
         co_bnds.addTo(map);
 
         // function to parse ebird species object and format as html
-        function parse_species(needs_obj) {
+        function parse_species(targets_obj) {
             let res = '';
-            for (const sp of needs_obj) {
+            for (const sp of targets_obj) {
                 res += `<p>${sp.comName} (${sp.sciName})</p>`;
             };
 
@@ -53,12 +53,12 @@
         }
 
         // function to fetch target species for selected hotspot
-        async function get_needs(loc_id) {
+        async function get_targets(loc_id) {
             try {
                 const res = await fetch(loc_id);
-                const needs = await res.json();
+                const targets = await res.json();
                 const dest = document.querySelector("#targets");
-                dest.innerHTML = parse_species(needs);
+                dest.innerHTML = parse_species(targets);
             } catch (e) {
                 console.log(e);
             } finally {
@@ -67,13 +67,13 @@
         }
 
         // fucntion to display hotspot name, n species reported, and link to
-        // open hotspot needs
+        // open hotspot targets
         function onEachFeature(feature, layer) {
             let popupContent =
                 `<h3>${feature.properties.locName}</h3>
                 <p><b># species: ${feature.properties.numSpeciesAllTime}</b></p>
-                <p><b><a class="needslink"
-                    onclick='get_needs("${feature.properties.locId}");'>
+                <p><b><a class="targetslink"
+                    onclick='get_targets("${feature.properties.locId}");'>
                     Show target species
                 </a></b></p>`;
 
