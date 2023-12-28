@@ -32,3 +32,19 @@ path.leaflet-interactive {
     padding: 1rem;
     font-size: 0.9em;
 }
+
+.pop-header {
+    font-size: 1.5em;
+    font-weight: bold;
+    margin-bottom: 1em;
+}
+
+.n-species-obs {
+    font-size: 1.2em;
+    font-weight: bold;
+    color: #1c6900;
+}
+
+.btn {
+    font-weight: bold;
+}
