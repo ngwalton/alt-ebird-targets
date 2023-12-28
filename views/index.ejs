@@ -46,7 +46,7 @@
         function parse_species(targets_obj) {
             let res = '';
             for (const sp of targets_obj) {
-                res += `<p>${sp.comName} (${sp.sciName})</p>`;
+                res += `<p>${sp.comName} (<i>${sp.sciName}</i>)</p>`;
             };
 
             return res;
