@@ -50,7 +50,34 @@ path.leaflet-interactive {
 }
 
 .btn {
+    padding: 0.375rem 0.75rem ;
+    font-size: 1rem;
     font-weight: bold;
+    line-height: 1.5;
+    border-radius: 0.375rem;
+    border-style: solid;
+    width: 100%;
+    transition: 0.15s;
+    transition-timing-function: ease-in-out;
+}
+
+.btn:active {
+    transition: 0.15s;
+}
+
+.btn-light {
+    background-color: #f8f9fa;
+    border-color: #f8f9fa;
+}
+
+.btn-light:hover {
+    background-color: #d3d4d5;
+    border-color: #d3d4d5;
+}
+
+.btn-light:active {
+    background-color: #c6c7c8;
+    border-color: #c6c7c8;
 }
 
 .closebtn {
