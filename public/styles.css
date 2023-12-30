@@ -35,6 +35,7 @@ path.leaflet-interactive {
     padding: 1.5rem;
     font-size: 0.9em;
     transition: 0.5s;
+    transition-timing-function: ease-in-out;
 }
 
 #targets p {
