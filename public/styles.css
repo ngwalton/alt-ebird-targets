@@ -32,9 +32,13 @@ path.leaflet-interactive {
     overflow-y: scroll;
     overflow-x: hidden;
     margin: 1rem;
-    padding: 1rem;
+    padding: 1.5rem;
     font-size: 0.9em;
     transition: 0.5s;
+}
+
+#targets p {
+    margin: 0.75em 0;
 }
 
 .pop-header {
@@ -83,8 +87,21 @@ path.leaflet-interactive {
 .closebtn {
     position: absolute;
     top: 0;
-    right: 25px;
+    right: 10px;
     font-size: 36px;
     margin-left: 50px;
     text-decoration: none;
+    color: black;
+    transition: 0.15s;
+    transition-timing-function: ease-in-out;
   }
+
+.closebtn:hover {
+    color: rgb(78, 78, 78);
+    font-weight: bold;
+}
+
+.closebtn:active {
+    color: black;
+    font-weight: bold;
+}
