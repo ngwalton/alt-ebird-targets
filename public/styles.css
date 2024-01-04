@@ -26,20 +26,29 @@ path.leaflet-interactive {
     position: fixed;
     left: -10000px;
     top: 0;
-    max-height: 90%;
+    width: 300px;
+    bottom: 0;
     background-color: white;
     z-index: 1;
     overflow-y: scroll;
     overflow-x: hidden;
-    margin: 1rem;
+    margin: 0;
     padding: 1.5rem;
-    font-size: 0.9em;
     transition: 0.5s;
     transition-timing-function: ease-in-out;
 }
 
 #targets p {
     margin: 0.75em 0;
+}
+
+.comName {
+    font-size: 1.2em;
+}
+
+.sciName {
+    font-style: italic;
+    font-size: 0.9em;
 }
 
 .pop-header {
