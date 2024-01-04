@@ -52,8 +52,12 @@
         // function to parse ebird species object and format as html
         function parse_species(targets_obj) {
             let res = '';
+            let region = 'US-WI-055';  // this will need to be automated
             for (const sp of targets_obj) {
-                res += `<p><span class="comName">${sp.comName}</span></br>
+                let link =
+                    `https://ebird.org/wi/species/${sp.speciesCode}/${region}`;
+                res += `<p><a href="${link}" target="_blank">
+                    <span class="comName">${sp.comName}</span></a></br>
                     (<span class="sciName">${sp.sciName}</span>)</p>`;
             };
 
@@ -85,7 +89,8 @@
                     </a>
                 </div>
                 <div class="n-species-obs">
-                    <p>Species: ${feature.properties.numSpeciesAllTime}</p>
+                    <p>Species confirmed:
+                        ${feature.properties.numSpeciesAllTime}</p>
                 </div>
                 <div>
                     <button type="button" class="btn btn-light"

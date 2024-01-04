@@ -42,24 +42,47 @@ path.leaflet-interactive {
     margin: 0.75em 0;
 }
 
+#targets a {
+    text-decoration: none;
+    color: #0070b2;
+}
+
+#targets a:hover {
+    color: #00598e;
+}
+
 .comName {
-    font-size: 1.2em;
+    font-size: 1rem;
+    font-family: sans-serif;
+    font-weight: 700;
 }
 
 .sciName {
     font-style: italic;
-    font-size: 0.9em;
+    font-size: 0.875rem;
+    font-weight: 400;
+    color: #6a6a6a;
+    font-family: sans-serif;
 }
 
 .pop-header {
-    font-size: 1.5em;
-    font-weight: bold;
+    font-size: 1.13rem;
+    font-weight: 700;
     margin-bottom: 1em;
 }
 
+.pop-header a {
+    color: #0070b2;
+    text-decoration: none;
+}
+
+.pop-header a:hover {
+    color: #00598e;
+}
+
 .n-species-obs {
-    font-size: 1.2em;
-    font-weight: bold;
+    font-size: 1rem;
+    font-weight: 400;
     color: #1c6900;
 }
 
@@ -73,6 +96,7 @@ path.leaflet-interactive {
     width: 100%;
     transition: 0.15s;
     transition-timing-function: ease-in-out;
+    cursor: pointer;
 }
 
 .btn:active {
