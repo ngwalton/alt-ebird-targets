@@ -103,19 +103,20 @@ path.leaflet-interactive {
     transition: 0.15s;
 }
 
-.btn-light {
-    background-color: #f8f9fa;
-    border-color: #f8f9fa;
+.btn-primary {
+    color: #fff;
+    background-color: #0070b2;
+    border-color: #0070b2;
 }
 
-.btn-light:hover {
-    background-color: #d3d4d5;
-    border-color: #d3d4d5;
+.btn-primary:hover {
+    background-color: #00598e;
+    border-color: #00598e;
 }
 
-.btn-light:active {
-    background-color: #c6c7c8;
-    border-color: #c6c7c8;
+.btn-primary:active {
+    background-color: #00436a;
+    border-color: #00436a;
 }
 
 .closebtn {
