@@ -1,4 +1,4 @@
-# hotspot_targets
+# alt-ebird-targets
 
 A web app to list bird species that have *not* been reported at a given
 [eBird](https://ebird.org/home) [hotspot](https://ebird.org/hotspots).
