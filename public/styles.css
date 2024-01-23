@@ -164,7 +164,7 @@ path.leaflet-interactive {
     background-color: white;
     flex: 1 1 auto;
     margin: 0;
-    padding: 1.5rem;
+    padding: 0 1rem 0 1.5rem;
     /* transition: 0.5s;
     transition-timing-function: ease-in-out; */
 }
