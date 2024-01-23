@@ -138,7 +138,7 @@ path.leaflet-interactive {
 #target-wrapper {
     flex: 1 1 auto;
     display: flex;
-    flex-direction: column;
+    flex-direction: row-reverse;
     position: fixed;
     left: -10000px;
     min-height: 0px;
@@ -245,6 +245,7 @@ path.leaflet-interactive {
 
 .closebtn {
     display: flex;
+    padding-right: 10px;
     flex: 1 1 auto;
     font-size: 36px;
     text-decoration: none;
