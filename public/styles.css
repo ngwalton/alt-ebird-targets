@@ -41,11 +41,16 @@ body {
     text-decoration: none;
     color: white;
     padding: 1rem;
+    margin: 0.5rem 0;
     display: block;
 }
 
 .navbar-links li:hover {
     background-color: #113245;
+}
+
+.navbar-links li:active {
+    background-color: #3c4f5a;
 }
 
 .toggle-button {
