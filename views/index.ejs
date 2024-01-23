@@ -17,15 +17,36 @@
     <script src="leaflet.ajax.min.js"></script>
 </head>
 <body>
-    <div id="targets_bar">
-        <div>
-            <a href="javascript:void(0)" class="closebtn"
-                onclick="close_targets()">&times;</a>
+    <div id="body-wrapper">
+        <nav class="navbar">
+            <div class="title">alt eBird targets</div>
+            <a href="#" class="toggle-button">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </a>
+            <div class="navbar-links">
+                <ul>
+                    <li><a href="#">Hotspot targets</a></li>
+                    <li><a href="#">About</a></li>
+                </ul>
+            </div>
+        </nav>
+
+        <div id="content-wrapper">
+            <div id="target-wrapper">
+                <div id="targets_bar">
+                    <div>
+                        <a href="javascript:void(0)" class="closebtn"
+                            onclick="close_targets()">&times;</a>
+                    </div>
+                    <div id="targets"></div>
+                </div>
+            </div>
+
+            <div id="map"></div>
         </div>
-        <div id="targets"></div>
     </div>
-    
-    <div id="map"></div>
 
     <script>
         // creates an empty map that is displayed in the div with the
@@ -116,12 +137,22 @@
         L.control.zoom({position: 'topright'}).addTo(map);
     </script>
     <script>
+        // open and close targets side panel
         function open_targets() {
-            document.querySelector("#targets_bar").style.left = "0";
+            document.querySelector("#target-wrapper").style.position = "static";
         }
         function close_targets() {
-            document.querySelector("#targets_bar").style.left = "-10000px";
+            document.querySelector("#target-wrapper").style.position = "fixed";
         }
+    </script>
+    <script>
+        // toggle hamburger menu open and closed
+        const toggleButton = document.querySelector('.toggle-button');
+        const navbarLinks = document.querySelector('.navbar-links');
+
+        toggleButton.addEventListener('click', () => {
+            navbarLinks.classList.toggle('active');
+        });
     </script>
 </body>
 </html>
