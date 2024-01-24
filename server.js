@@ -101,12 +101,19 @@ app.get('/L*+', async (req, res) => {
     res.send(taxon);
 });
 
-// index map
-app.get('/', async (req, res) => {
+// return selected county hotspots
+app.get('/US-WI-*+', async (req, res) => {
+    const region = req["url"].replace('\/', '');
+
     let hotspot_geo = await get_hotspots(region);
     hotspot_geo = JSON.stringify(hotspot_geo);
 
-    res.render('index', {hotspot_geo: hotspot_geo});
+    res.send(hotspot_geo);
+});
+
+// index map
+app.get('/', (req, res) => {
+    res.render('index');
 });
 
 app.listen(process.env.PORT, () =>

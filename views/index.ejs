@@ -125,13 +125,29 @@
             layer.bindPopup(popupContent);
         }
 
-        // load from ebird servers
-        let hotspot_geo = L.geoJSON(<%- hotspot_geo %>,
-            {onEachFeature: onEachFeature});
+        // load hotspots from ebird servers
+        async function get_county_hotspots(region) {
+            try {
+                const res = await fetch(region);
+                const hotspots = await res.json();
+
+                let hotspot_geo = L.geoJSON(hotspots,
+                    {onEachFeature: onEachFeature});
+
+                hotspot_geo.addTo(map);
+            } catch (e) {
+                console.log(e);
+            } finally {
+                console.log("Getting hotspots for: " + region);
+            }
+        }
+
+        get_county_hotspots('US-WI-055');
+
         // load from my server
         // let hotspot_geo = new L.GeoJSON.AJAX("hotspot_list.geojson",
         //     {onEachFeature: onEachFeature});
-        hotspot_geo.addTo(map);
+        // hotspot_geo.addTo(map);
 
         L.control.scale().addTo(map);
 
