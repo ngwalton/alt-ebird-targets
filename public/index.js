@@ -29,7 +29,7 @@ async function get_co_bnds() {
     const url =
         "https://dnrmaps.wi.gov/arcgis/rest/services/DW_Map_Dynamic/" +
         "EN_Basic_Basemap_WTM_Ext_Dynamic_L16/MapServer/3/" +
-        "query?outFields=*&where=1%3D1&f=geojson";
+        "query?outFields=COUNTY_NAME,COUNTY_FIPS_CODE&where=1%3D1&outSR=4326&f=geojson";
 
     try {
         const res = await fetch(url);
