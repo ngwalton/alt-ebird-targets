@@ -14,3 +14,8 @@ at your favorite eBird hotspots.
 
 Currently setup to work only with hotspots in Jefferson Co, WI, but will be
 generalized to WI.
+
+This website incorporates data the following APIs:
+
+* [eBird API 2.0](https://documenter.getpostman.com/view/664302/S1ENwy59)
+* [WI DNR Open Data: County Boundaries 24K](https://data-wi-dnr.opendata.arcgis.com/datasets/wi-dnr::county-boundaries-24k/about)
