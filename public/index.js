@@ -16,8 +16,42 @@ let basemap = L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
 
 basemap.addTo(map);
 
-let co_bnds = new L.GeoJSON.AJAX("County_Boundaries_24K.geojson");
-co_bnds.addTo(map);
+// function return WI County Bounds: if not found in localStorage, they are
+// downloaded and saved to localStorage before returning the bounds
+async function get_co_bnds() {
+    if (localStorage.co_bnds) {
+        console.log("Retrieved Co Bounds from local storage");
+        return JSON.parse(localStorage.co_bnds);
+    }
+
+    // metadata/api info:
+    // https://data-wi-dnr.opendata.arcgis.com/datasets/wi-dnr::county-boundaries-24k/about
+    const url =
+        "https://dnrmaps.wi.gov/arcgis/rest/services/DW_Map_Dynamic/" +
+        "EN_Basic_Basemap_WTM_Ext_Dynamic_L16/MapServer/3/" +
+        "query?outFields=*&where=1%3D1&f=geojson";
+
+    try {
+        const res = await fetch(url);
+        const co_bnds_json = await res.json();
+        localStorage.co_bnds = JSON.stringify(co_bnds_json);
+
+        console.log("Downloaded Co Bounds and saved to local storage");
+        return co_bnds_json;
+    } catch (e) {
+        console.log(e);
+    }
+}
+
+// used this method to expose co_bnds to global env for future manipulation
+// but there may be a better way to accomplish this
+let co_bnds;
+// return co_bnds from localStorage or get it from web if missing
+get_co_bnds()
+    .then(co_bnds_json => {
+        co_bnds = L.geoJSON(co_bnds_json);
+        co_bnds.addTo(map);
+    });
 
 // function to parse ebird species object and format as html
 function parse_species(targets_obj) {
@@ -91,11 +125,6 @@ async function get_county_hotspots(region) {
 }
 
 get_county_hotspots('US-WI-055');
-
-// load from my server
-// let hotspot_geo = new L.GeoJSON.AJAX("hotspot_list.geojson",
-//     {onEachFeature: onEachFeature});
-// hotspot_geo.addTo(map);
 
 L.control.scale().addTo(map);
 

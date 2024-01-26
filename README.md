@@ -14,12 +14,3 @@ at your favorite eBird hotspots.
 
 Currently setup to work only with hotspots in Jefferson Co, WI, but will be
 generalized to WI.
-
-The following files are not under version control and will need to be added to
-`./public`:
-
-- [County_Boundaries_24K.geojson](https://data-wi-dnr.opendata.arcgis.com/datasets/wi-dnr::county-boundaries-24k/explore)
-(Wisconsin county bounds) from WI DNR
-- [leaflet.ajax.min.js](https://github.com/calvinmetcalf/leaflet-ajax/blob/gh-pages/dist/leaflet.ajax.min.js)
-from [calvinmetcalf/leaflet-ajax](https://github.com/calvinmetcalf/leaflet-ajax)
-(used for `L.GeoJSON.AJAX`)
