@@ -1,5 +1,6 @@
 const express = require('express');
-const {get_ebird_data, get_hotspots, get_query} = require('./helpers');
+const {get_hotspots, get_query, get_hotspot_target_list, get_ebird_taxonomy} =
+    require('./helpers');
 require('dotenv').config(); // load .env in process.env object
 
 const app = express();
@@ -13,41 +14,18 @@ app.set('view engine', 'ejs');
 // api endpoint requesting hotspot target species
 // query example: "?fips=US-WI-055&hotspot=L1460709"
 app.get('/hotspot-targets', async (req, res) => {
-    const query = get_query(req);
+    try {
+        const query = get_query(req);
 
-    // get species list for selected hotspot
-    const hotspot_url =
-        "https://api.ebird.org/v2/product/spplist/" + query.hotspot;
-    const hotspot_list = await get_ebird_data(hotspot_url);
+        const hotspot_target_list =
+            await get_hotspot_target_list(query.fips, query.hotspot);
 
-    // get species list for corresponding county
-    const county_url =
-        "https://api.ebird.org/v2/product/spplist/" + query.fips;
-    const county_list = await get_ebird_data(county_url);
+        const taxon = await get_ebird_taxonomy(hotspot_target_list);
 
-    // remove species from county_list that are in hotspot_list
-    const hotspot_targets = county_list.filter(x => !hotspot_list.includes(x));
-
-    // get the taxon list limited to the species in hotspot_targets
-    const species_pattern = hotspot_targets.reduce((a, b) => a + ',' + b);
-    const taxon_url =
-        'https://api.ebird.org/v2/ref/taxonomy/ebird?species=' +
-        species_pattern + '&version=2023.0&fmt=json';
-
-    const taxon_raw = await get_ebird_data(taxon_url);
-
-    // for taxonomic sort add x['taxonOrder'], but should already be in
-    // taxonomic order 
-    let taxon = taxon_raw
-        .filter(x => x.category === 'species')
-        .map(x => {
-            return {'sciName': x['sciName'], 'comName': x['comName'],
-            'speciesCode': x['speciesCode']}
-    });
-
-    taxon = JSON.stringify(taxon);
-
-    res.send(taxon);
+        res.json(taxon);
+    } catch (e) {
+        console.log(e);
+    }
 });
 
 // api endpoint to request hotspot locations for selected county
@@ -56,19 +34,16 @@ app.get('/get-county-hotspots', async (req, res) => {
     try {
         const query = get_query(req);
 
-        let hotspot_geo = await get_hotspots(query.fips);
-        hotspot_geo = JSON.stringify(hotspot_geo);
+        const hotspot_geo = await get_hotspots(query.fips);
 
-        res.send(hotspot_geo);
+        res.json(hotspot_geo);
     } catch (e) {
         console.log(e);
     }
 });
 
 // index map
-app.get('/', (req, res) => {
-    res.render('index');
-});
+app.get('/', (req, res) => res.render('index'));
 
 app.listen(process.env.PORT, () =>
     console.log(`Server listening on port ${process.env.PORT}`));
