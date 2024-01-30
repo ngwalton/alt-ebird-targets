@@ -10,17 +10,17 @@ app.use(express.static('public'));
 // use ejs as the view manager
 app.set('view engine', 'ejs');
 
-// requesting hotspot targets
+// api endpoint requesting hotspot target species
 // query example: "?fips=US-WI-055&hotspot=L1460709"
 app.get('/hotspot-targets', async (req, res) => {
     const query = get_query(req);
 
-    // get the hotspot species list
+    // get species list for selected hotspot
     const hotspot_url =
         "https://api.ebird.org/v2/product/spplist/" + query.hotspot;
     const hotspot_list = await get_ebird_data(hotspot_url);
 
-    // get the county species list
+    // get species list for corresponding county
     const county_url =
         "https://api.ebird.org/v2/product/spplist/" + query.fips;
     const county_list = await get_ebird_data(county_url);
@@ -35,6 +35,7 @@ app.get('/hotspot-targets', async (req, res) => {
         species_pattern + '&version=2023.0&fmt=json';
 
     const taxon_raw = await get_ebird_data(taxon_url);
+
     // for taxonomic sort add x['taxonOrder'], but should already be in
     // taxonomic order 
     let taxon = taxon_raw
@@ -49,7 +50,7 @@ app.get('/hotspot-targets', async (req, res) => {
     res.send(taxon);
 });
 
-// return selected county hotspots
+// api endpoint to request hotspot locations for selected county
 // query example "?fips=US-WI-055"
 app.get('/get-county-hotspots', async (req, res) => {
     try {

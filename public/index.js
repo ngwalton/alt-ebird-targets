@@ -1,5 +1,4 @@
-// creates an empty map that is displayed in the div with the
-// corresponding id
+// create an empty map displayed in the div with corresponding id
 let map = L.map('map', {
     center: [43.0167, -88.783],
     zoom: 11,
@@ -7,7 +6,7 @@ let map = L.map('map', {
     zoomControl: false
 });
 
-// open street map base map
+// open street map basemap
 let basemap = L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
     attribution:
         '&copy; <a href="http://osm.org/copyright">' +
@@ -16,7 +15,7 @@ let basemap = L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
 
 basemap.addTo(map);
 
-// function return WI County Bounds: if not found in localStorage, they are
+// function to return WI County Bounds: if not found in localStorage, they are
 // downloaded and saved to localStorage before returning the bounds
 async function get_co_bnds() {
     if (localStorage.co_bnds) {
@@ -46,7 +45,6 @@ async function get_co_bnds() {
 // used this method to expose co_bnds to global env for future manipulation
 // but there may be a better way to accomplish this
 let co_bnds;
-// return co_bnds from localStorage or get it from web if missing
 get_co_bnds()
     .then(co_bnds_json => {
         co_bnds = L.geoJSON(co_bnds_json);
@@ -56,10 +54,11 @@ get_co_bnds()
 // function to parse ebird species object and format as html
 function parse_species(targets_obj) {
     let res = '';
-    let region = 'US-WI-055';  // this will need to be automated
+    let fips = 'US-WI-055';  // this will need to be automated
+
     for (const sp of targets_obj) {
         let link =
-            `https://ebird.org/wi/species/${sp.speciesCode}/${region}`;
+            `https://ebird.org/wi/species/${sp.speciesCode}/${fips}`;
         res += `<p><a href="${link}" target="_blank">
             <span class="comName">${sp.comName}</span></a></br>
             (<span class="sciName">${sp.sciName}</span>)</p>`;
@@ -84,7 +83,7 @@ async function get_targets(fips, loc_id) {
 }
 
 // function to display hotspot name, n species reported, and link to
-// open hotspot targets
+// open hotspot targets on hotspot popup
 function onEachFeature(feature, layer) {
     let popupContent =
         `<div class="pop-header">
@@ -109,10 +108,10 @@ function onEachFeature(feature, layer) {
     layer.bindPopup(popupContent);
 }
 
-// load hotspots from ebird servers
-async function get_county_hotspots(region) {
+// function to load county hotspots from ebird servers
+async function get_county_hotspots(fips) {
     try {
-        const query = `./get-county-hotspots?fips=${region}`
+        const query = `./get-county-hotspots?fips=${fips}`
         const res = await fetch(query);
         const hotspots = await res.json();
 
@@ -123,7 +122,7 @@ async function get_county_hotspots(region) {
     } catch (e) {
         console.log(e);
     } finally {
-        console.log("Getting hotspots for: " + region);
+        console.log("Getting hotspots for: " + fips);
     }
 }
 

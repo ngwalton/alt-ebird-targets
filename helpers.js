@@ -32,10 +32,12 @@ async function get_ebird_data(url) {
 
 exports.get_ebird_data = get_ebird_data;
 
-// function to download hotspot geographic data
-async function get_hotspots(region_code) {
+// function to download hotspots for a given county
+// US counties are specified by ebird using FIPS (e.g., "US-WI-055")
+// ebird calls this "subnational2Code"
+async function get_hotspots(fips) {
     let hotspots_url =
-        `https://api.ebird.org/v2/ref/hotspot/${region_code}?fmt=json`;
+        `https://api.ebird.org/v2/ref/hotspot/${fips}?fmt=json`;
     let hotspots_array = await get_ebird_data(hotspots_url);
 
     let hotspot_geo = {
