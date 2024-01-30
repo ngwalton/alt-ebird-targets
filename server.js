@@ -1,6 +1,6 @@
 const express = require('express');
-const {get_hotspots, get_query, get_hotspot_target_list, get_ebird_taxonomy} =
-    require('./helpers');
+const {get_hotspots, get_query, get_hotspot_target_list, get_ebird_taxonomy,
+    get_species_target_list} = require('./helpers');
 require('dotenv').config(); // load .env in process.env object
 
 const app = express();
@@ -37,6 +37,25 @@ app.get('/get-county-hotspots', async (req, res) => {
         const hotspot_geo = await get_hotspots(query.fips);
 
         res.json(hotspot_geo);
+    } catch (e) {
+        console.log(e);
+    }
+});
+
+// api endpoint to request a species' target hotspots (i.e., hotspots where a
+// given species has not been confirmed)
+// query example "?fips=US-WI-055&alpha=amerob"
+app.get('/species-target', async (req, res) => {
+    try {
+        const query = get_query(req);
+
+        // array of hotspots where the species has not been confirmed
+        const species_target_list =
+            await get_species_target_list(query.fips, query.alpha);
+
+        // return an array of hotspot names
+        // remove .map to return array of hotspot objects
+        res.json(species_target_list.map(x => x.properties.locName));
     } catch (e) {
         console.log(e);
     }

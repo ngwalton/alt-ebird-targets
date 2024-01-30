@@ -135,3 +135,35 @@ exports.get_ebird_taxonomy = get_ebird_taxonomy;
 // }
 
 // exports.get_adjacent_species_list = get_adjacent_species_list;
+// alpha is a 6-letter common name alpha code
+// returns an an array of hotspot objects where species alpha has not been
+// confirmed
+async function get_species_target_list(fips, alpha) {
+    try {
+        const hotspots_without_confirmed_obs = [];
+        const species_list_promises = [];
+
+        const hotspots_in_county = await get_hotspots(fips);
+
+        for (const hotspot of hotspots_in_county.features) {
+            species_list_promises
+                .push(get_species_list(hotspot.properties.locId));
+        }
+
+        let hotspot_species_lists =
+            await Promise.all([...species_list_promises]);
+
+        for (let i = 0; i < hotspot_species_lists.length; i++) {
+            if (!hotspot_species_lists[i].includes(alpha)) {
+                hotspots_without_confirmed_obs
+                    .push(hotspots_in_county.features[i]);
+            }
+        }
+
+        return hotspots_without_confirmed_obs;
+    } catch (e) {
+        console.log(e);
+    }
+}
+
+exports.get_species_target_list = get_species_target_list;
