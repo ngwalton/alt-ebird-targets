@@ -38,7 +38,7 @@ async function get_co_bnds() {
         console.log("Downloaded Co Bounds and saved to local storage");
         return co_bnds_json;
     } catch (e) {
-        console.log(e);
+        console.error(e);
     }
 }
 
@@ -76,7 +76,7 @@ async function get_targets(fips, loc_id) {
         const dest = document.querySelector("#targets");
         dest.innerHTML = parse_species(targets);
     } catch (e) {
-        console.log(e);
+        console.error(e);
     } finally {
         console.log("Getting data for: " + loc_id);
     }
@@ -120,7 +120,7 @@ async function get_county_hotspots(fips) {
 
         hotspot_geo.addTo(map);
     } catch (e) {
-        console.log(e);
+        console.error(e);
     } finally {
         console.log("Getting hotspots for: " + fips);
     }

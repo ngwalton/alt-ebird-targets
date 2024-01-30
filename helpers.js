@@ -25,8 +25,8 @@ async function get_ebird_data(url) {
         const out = await response.json();
 
         return out;
-    } catch (error) {
-        console.error(error);
+    } catch (e) {
+        console.error(e);
     }
 }
 
@@ -162,7 +162,7 @@ async function get_species_target_list(fips, alpha) {
 
         return hotspots_without_confirmed_obs;
     } catch (e) {
-        console.log(e);
+        console.error(e);
     }
 }
 

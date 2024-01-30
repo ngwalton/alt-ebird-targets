@@ -24,7 +24,7 @@ app.get('/hotspot-targets', async (req, res) => {
 
         res.json(taxon);
     } catch (e) {
-        console.log(e);
+        console.error(e);
     }
 });
 
@@ -38,7 +38,7 @@ app.get('/get-county-hotspots', async (req, res) => {
 
         res.json(hotspot_geo);
     } catch (e) {
-        console.log(e);
+        console.error(e);
     }
 });
 
@@ -57,7 +57,7 @@ app.get('/species-target', async (req, res) => {
         // remove .map to return array of hotspot objects
         res.json(species_target_list.map(x => x.properties.locName));
     } catch (e) {
-        console.log(e);
+        console.error(e);
     }
 });
 
