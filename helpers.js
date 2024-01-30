@@ -123,3 +123,15 @@ async function get_ebird_taxonomy(species_list) {
 }
 
 exports.get_ebird_taxonomy = get_ebird_taxonomy;
+
+// it seems this functionality is currently not supported by the ebird api
+// at the subnational2Code scale
+// function to download species list for adjacent regions (counties)
+// async function get_adjacent_species_list(fips) {
+//     const url = `https://api.ebird.org/v2/ref/adjacent/${fips}`;
+//     const adjacent_counties = get_ebird_data(url);
+
+//     return adjacent_counties;
+// }
+
+// exports.get_adjacent_species_list = get_adjacent_species_list;
