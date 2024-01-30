@@ -1,5 +1,5 @@
 const express = require('express');
-const {get_ebird_data, get_hotspots} = require('./helpers');
+const {get_ebird_data, get_hotspots, get_query} = require('./helpers');
 require('dotenv').config(); // load .env in process.env object
 
 const app = express();
@@ -11,15 +11,18 @@ app.use(express.static('public'));
 app.set('view engine', 'ejs');
 
 // requesting hotspot targets
-let region = 'US-WI-055';
-app.get('/L*+', async (req, res) => {
+// query example: "?fips=US-WI-055&hotspot=L1460709"
+app.get('/hotspot-targets', async (req, res) => {
+    const query = get_query(req);
+
     // get the hotspot species list
-    const hotspot_id = req["url"];  // includes a forward slash at the beginning
-    const hotspot_url = "https://api.ebird.org/v2/product/spplist" + hotspot_id;
+    const hotspot_url =
+        "https://api.ebird.org/v2/product/spplist/" + query.hotspot;
     const hotspot_list = await get_ebird_data(hotspot_url);
 
     // get the county species list
-    const county_url = "https://api.ebird.org/v2/product/spplist/" + region;
+    const county_url =
+        "https://api.ebird.org/v2/product/spplist/" + query.fips;
     const county_list = await get_ebird_data(county_url);
 
     // remove species from county_list that are in hotspot_list
@@ -47,13 +50,18 @@ app.get('/L*+', async (req, res) => {
 });
 
 // return selected county hotspots
-app.get('/US-WI-*+', async (req, res) => {
-    const region = req["url"].replace('\/', '');
+// query example "?fips=US-WI-055"
+app.get('/get-county-hotspots', async (req, res) => {
+    try {
+        const query = get_query(req);
 
-    let hotspot_geo = await get_hotspots(region);
-    hotspot_geo = JSON.stringify(hotspot_geo);
+        let hotspot_geo = await get_hotspots(query.fips);
+        hotspot_geo = JSON.stringify(hotspot_geo);
 
-    res.send(hotspot_geo);
+        res.send(hotspot_geo);
+    } catch (e) {
+        console.log(e);
+    }
 });
 
 // index map

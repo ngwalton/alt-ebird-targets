@@ -1,3 +1,14 @@
+const querystring = require('node:querystring');
+
+function get_query(req) {
+    const base_url =  `${req.protocol}://${req.headers.host}/`;
+    const req_url = new URL(req.url, base_url);
+    const query = req_url.search.replace('\?', '');
+    return querystring.parse(query);
+}
+
+exports.get_query = get_query;
+
 // function to download general ebird data
 async function get_ebird_data(url) {
     try {

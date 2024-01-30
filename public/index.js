@@ -69,9 +69,10 @@ function parse_species(targets_obj) {
 }
 
 // function to fetch target species for selected hotspot
-async function get_targets(loc_id) {
+async function get_targets(fips, loc_id) {
     try {
-        const res = await fetch(loc_id);
+        const query = `hotspot-targets?fips=${fips}&hotspot=${loc_id}`
+        const res = await fetch(query);
         const targets = await res.json();
         const dest = document.querySelector("#targets");
         dest.innerHTML = parse_species(targets);
@@ -98,7 +99,8 @@ function onEachFeature(feature, layer) {
         </div>
         <div>
             <button type="button" class="btn btn-primary" 
-                onclick='get_targets("${feature.properties.locId}");
+                onclick='get_targets("${feature.properties.subnational2Code}",
+                    "${feature.properties.locId}");
                 open_targets();'>
                 Target species
             </button>
@@ -110,7 +112,8 @@ function onEachFeature(feature, layer) {
 // load hotspots from ebird servers
 async function get_county_hotspots(region) {
     try {
-        const res = await fetch(region);
+        const query = `./get-county-hotspots?fips=${region}`
+        const res = await fetch(query);
         const hotspots = await res.json();
 
         let hotspot_geo = L.geoJSON(hotspots,
