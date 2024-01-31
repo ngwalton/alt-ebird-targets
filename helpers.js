@@ -130,8 +130,11 @@ async function get_ebird_taxonomy(species_list) {
         const taxon = taxon_raw
             .filter(x => x.category === 'species')  // only include full species
             .map(x => {
-                return {'sciName': x['sciName'], 'comName': x['comName'],
-                'speciesCode': x['speciesCode']}
+                return {
+                    'sciName': x.sciName,
+                    'comName': x.comName,
+                    'speciesCode': x.speciesCode
+                }
             });
 
         return taxon;
