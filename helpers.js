@@ -173,7 +173,7 @@ async function get_species_target_list(fips, alpha) {
         }
 
         let hotspot_species_lists =
-            await Promise.all([...species_list_promises]);
+            await Promise.all(species_list_promises);
 
         for (let i = 0; i < hotspot_species_lists.length; i++) {
             if (!hotspot_species_lists[i].includes(alpha)) {
