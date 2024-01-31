@@ -167,7 +167,11 @@ async function get_species_target_list(fips, alpha) {
         const species_list_promises = hotspots.features
             .map(hotspot => get_species_list(hotspot.properties.locId));
 
-        const hotspot_species_lists = await Promise.all(species_list_promises);
+        const hotspot_species_lists = await Promise.all(species_list_promises)
+            .catch(_ => {
+                console.log(`Attempting to download ${alpha} a second time`);
+                return Promise.all(species_list_promises);
+            });
 
         const hotspots_without_confirmed_obs = hotspots.features
             .filter((_, i) => !hotspot_species_lists[i].includes(alpha));
