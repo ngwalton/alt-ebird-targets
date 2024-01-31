@@ -157,9 +157,12 @@ exports.get_ebird_taxonomy = get_ebird_taxonomy;
 // }
 
 // exports.get_adjacent_species_list = get_adjacent_species_list;
-// alpha is a 6-letter common name alpha code
+
+// function to download species lists for all hotspots in a county and check if
+// a given species has been confirmed at each
 // returns an an array of hotspot objects where species alpha has not been
 // confirmed
+// alpha is a 6-letter common name alpha code
 async function get_species_target_list(fips, alpha) {
     try {
         const hotspots = await get_hotspots(fips);
