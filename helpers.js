@@ -1,4 +1,3 @@
-const e = require('express');
 const querystring = require('node:querystring');
 
 function get_query(req) {
