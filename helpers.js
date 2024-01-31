@@ -162,14 +162,14 @@ exports.get_ebird_taxonomy = get_ebird_taxonomy;
 // confirmed
 async function get_species_target_list(fips, alpha) {
     try {
-        const hotspots_in_county = await get_hotspots(fips);
+        const hotspots = await get_hotspots(fips);
 
-        const species_list_promises = hotspots_in_county.features
+        const species_list_promises = hotspots.features
             .map(hotspot => get_species_list(hotspot.properties.locId));
 
         const hotspot_species_lists = await Promise.all(species_list_promises);
 
-        const hotspots_without_confirmed_obs = hotspots_in_county.features
+        const hotspots_without_confirmed_obs = hotspots.features
             .filter((_, i) => !hotspot_species_lists[i].includes(alpha));
 
         return hotspots_without_confirmed_obs;
