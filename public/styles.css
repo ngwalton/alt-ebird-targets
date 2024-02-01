@@ -100,10 +100,6 @@ body {
     display: flex;
 }
 
-.navbar-links li {
-    list-style: none;
-}
-
 .navbar-links li a {
     text-decoration: none;
     color: white;
