@@ -34,10 +34,32 @@
 
         <div id="content-wrapper">
             <div id="target-wrapper">
-                <div>
-                    <a href="javascript:void(0)" class="closebtn"
-                        onclick="close_targets()">&times;</a>
+                <div class="container">
+                    <div id="type">
+                        <ul id="type-list" role="list">
+                            <li>
+                                <input value="hotspot" type="radio" name="type-radio" id="type-hotspot" checked>
+                                <label for="type-hotspot">Hotspot</label>
+                            </li>
+                            <li>
+                                <input value="county" type="radio" name="type-radio" id="type-county">
+                                <label for="type-county">County</label>
+                            </li>
+                            <li>
+                                <input value="species" type="radio" name="type-radio" id="type-species">
+                                <label for="type-species">Species</label>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <input class="toolbar-text-input" type="text" name="county" id="county-input" placeholder="County">
+
+                    <input class="toolbar-text-input" type="text" name="hotspot" id="hotspot-input" placeholder="Hotspot">
+                    <input class="toolbar-text-input" type="text" name="species" id="species-input" placeholder="Species">
                 </div>
+                <!-- <div>
+                    <a href="javascript:void(0)" class="closebtn">&times;</a>
+                </div> -->
 
                 <div id="targets_bar">
                     <div id="targets"></div>
