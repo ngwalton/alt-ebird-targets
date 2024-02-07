@@ -7,8 +7,6 @@ function get_query(req) {
     return querystring.parse(query);
 }
 
-exports.get_query = get_query;
-
 // function to download general ebird data
 async function get_ebird_data(url) {
     try {
@@ -29,8 +27,6 @@ async function get_ebird_data(url) {
         console.error(e);
     }
 }
-
-exports.get_ebird_data = get_ebird_data;
 
 // function to download hotspots for a given county
 // US counties are specified by ebird using FIPS (e.g., "US-WI-055")
@@ -73,8 +69,6 @@ async function get_hotspots(fips) {
     }
 }
 
-exports.get_hotspots = get_hotspots;
-
 // function to download species list for a given region or hotspot
 // returns a array of 6-letter common name alpha codes
 // loc can be an ebird fips/subnational2Code or a hotspot id
@@ -90,8 +84,6 @@ async function get_species_list(loc) {
         console.error(e);
     }
 }
-
-exports.get_species_list = get_species_list;
 
 // function to download target species list for a given hotspot
 // returns a array of 6-letter common name alpha codes
@@ -109,8 +101,6 @@ async function get_hotspot_target_list(fips, hotspot) {
         console.error(e);
     }
 }
-
-exports.get_hotspot_target_list = get_hotspot_target_list;
 
 // function to download and parse ebird taxonomy for given list of species
 // species_list is an array of 6-letter common name alpha codes
@@ -141,8 +131,6 @@ async function get_ebird_taxonomy(species_list) {
         console.error(e);
     }
 }
-
-exports.get_ebird_taxonomy = get_ebird_taxonomy;
 
 // it seems this functionality is currently not supported by the ebird api
 // at the subnational2Code scale
@@ -187,4 +175,12 @@ async function get_species_target_list(fips, alpha) {
     }
 }
 
-exports.get_species_target_list = get_species_target_list;
+module.exports = {
+    get_query,
+    get_ebird_data,
+    get_hotspots,
+    get_species_list,
+    get_hotspot_target_list,
+    get_ebird_taxonomy,
+    get_species_target_list
+}
