@@ -1,8 +1,8 @@
 // create an empty map displayed in the div with corresponding id
 let map = L.map('map', {
-    center: [43.0167, -88.783],
-    zoom: 11,
-    minZoom: 10,
+    center: [44.7863, -89.8470],
+    zoom: 7,
+    minZoom: 6,
     zoomControl: false
 });
 
