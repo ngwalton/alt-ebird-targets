@@ -47,9 +47,18 @@ async function get_co_bnds() {
 let co_bnds;
 get_co_bnds()
     .then(co_bnds_json => {
-        co_bnds = L.geoJSON(co_bnds_json);
+        co_bnds = L.geoJSON(co_bnds_json)
+            .on('click', zoomToCountyGetHotspots);
         co_bnds.addTo(map);
     });
+
+function zoomToCountyGetHotspots(click) {
+    const bb = click.sourceTarget._bounds;
+    map.fitBounds(bb);
+    const fips = click.layer.feature.properties.COUNTY_FIPS_CODE
+        .padStart(3, '0');
+    get_county_hotspots(`US-WI-${fips}`);
+}
 
 // function to parse ebird species object and format as html
 function parse_species(targets_obj) {
