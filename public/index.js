@@ -50,6 +50,17 @@ get_co_bnds()
         co_bnds = L.geoJSON(co_bnds_json)
             .on('click', zoomToCountyGetHotspots);
         co_bnds.addTo(map);
+
+        // populate the county search box
+        const co_props = co_bnds_json.features.map(f => f.properties);
+        const co_search = document.querySelector('#county-search-list');
+        co_props.forEach(co_prop => {
+            const li = document.createElement('li');
+            li.classList.add('search-item');
+            li.id = `US-WI-${co_prop.COUNTY_FIPS_CODE.padStart(3, '0')}`;
+            li.textContent = co_prop.COUNTY_NAME;
+            co_search.append(li);
+        });
     });
 
 function zoomToCountyGetHotspots(click) {

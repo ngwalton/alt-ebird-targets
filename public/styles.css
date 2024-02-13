@@ -338,3 +338,12 @@ path.leaflet-interactive {
     display: flex;
     flex-direction: column;
 }
+
+.search-item {
+    background-color: #e7e7e7;
+    display: none;
+}
+
+.search-item.visible {
+    display: block;
+}
