@@ -125,8 +125,6 @@ async function get_county_hotspots(fips) {
     }
 }
 
-get_county_hotspots('US-WI-055');
-
 L.control.scale().addTo(map);
 
 L.control.zoom({position: 'topright'}).addTo(map);
