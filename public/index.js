@@ -68,11 +68,33 @@ const countySearchInput = document.querySelector('#county-input');
 countySearchInput.addEventListener('input', (e) => {
     // avoid matching on the empty string
     const value = e.target.value.toLocaleLowerCase() || null;
-    const counties = document.querySelectorAll('#county-search-list li')
+    const counties = document.querySelectorAll('#county-search-list li');
     counties.forEach(co => {
         const chosen =  co.textContent.toLocaleLowerCase().startsWith(value);
         co.classList.toggle('visible', chosen);
     });
+});
+
+// on clicking the enter key, the first county in the results is placed in the
+// search box
+countySearchInput.addEventListener('keydown', (e) => {
+    if (e.key !== 'Enter') return;
+
+    try {
+        // avoid matching on the empty string
+        const value = e.target.value.toLocaleLowerCase() || null;
+        const counties = document.querySelectorAll('#county-search-list li');
+        const county = Array.from(counties)
+            .filter(co => {
+                return co.textContent.toLocaleLowerCase().startsWith(value)
+            })[0];
+
+        countySearchInput.value = county.textContent;
+        counties.forEach(co => co.classList.toggle('visible', false));
+    } catch (e) {
+        // to do: this should be a popup or something more elegant
+        alert('Enter valid county');
+    }
 });
 
 function zoomToCountyGetHotspots(click) {
