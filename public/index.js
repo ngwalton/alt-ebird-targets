@@ -87,10 +87,18 @@ countySearchInput.addEventListener('keydown', (e) => {
         const county = Array.from(counties)
             .filter(co => {
                 return co.textContent.toLocaleLowerCase().startsWith(value)
-            })[0];
+            })[0].textContent;
 
-        countySearchInput.value = county.textContent;
+        countySearchInput.value = county;
         counties.forEach(co => co.classList.toggle('visible', false));
+
+        // zoom to selected county
+        map.eachLayer(layer => {
+            if (layer.feature?.properties?.COUNTY_NAME === county) {
+                const bb = layer._bounds;
+                map.fitBounds(bb);
+            }
+        });
     } catch (e) {
         // to do: this should be a popup or something more elegant
         alert('Enter valid county');
