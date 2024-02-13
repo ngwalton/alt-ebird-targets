@@ -99,8 +99,7 @@ function onEachFeature(feature, layer) {
         <div>
             <button type="button" class="btn btn-primary" 
                 onclick='get_targets("${feature.properties.subnational2Code}",
-                    "${feature.properties.locId}");
-                open_targets();'>
+                    "${feature.properties.locId}");'>
                 Target species
             </button>
         </div>`;
