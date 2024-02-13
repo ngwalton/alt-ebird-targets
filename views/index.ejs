@@ -52,10 +52,20 @@
                         </ul>
                     </div>
 
-                    <input class="toolbar-text-input" type="text" name="county" id="county-input" placeholder="County">
-
-                    <input class="toolbar-text-input" type="text" name="hotspot" id="hotspot-input" placeholder="Hotspot">
-                    <input class="toolbar-text-input" type="text" name="species" id="species-input" placeholder="Species">
+                    <div id="outer-search-container">
+                        <div class="search-container">
+                            <input class="toolbar-text-input" type="search" name="county" id="county-input" placeholder="County">
+                            <ul class="search-list" id="county-search-list"></ul>
+                        </div>
+                        <div class="search-container">
+                            <input class="toolbar-text-input" type="search" name="hotspot" id="hotspot-input" placeholder="Hotspot">
+                            <ul class="search-list" id="hotspot-search-list"></ul>
+                        </div>
+                        <div class="search-container">
+                            <input class="toolbar-text-input" type="search" name="species" id="species-input" placeholder="Species">
+                            <ul class="search-list" id="species-search-list"></ul>
+                        </div>
+                    </div>
                 </div>
                 <!-- <div>
                     <a href="javascript:void(0)" class="closebtn">&times;</a>

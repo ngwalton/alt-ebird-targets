@@ -328,3 +328,13 @@ path.leaflet-interactive {
     color: black;
     font-weight: bold;
 }
+
+#outer-search-container {
+    display: flex;
+    flex-direction: row;
+}
+
+.search-container {
+    display: flex;
+    flex-direction: column;
+}
