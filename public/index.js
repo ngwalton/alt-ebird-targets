@@ -66,9 +66,8 @@ function zoomToCountyGetHotspots(click) {
 }
 
 // function to parse ebird species object and format as html
-function parse_species(targets_obj) {
+function parse_species(fips, targets_obj) {
     let res = '';
-    let fips = 'US-WI-055';  // this will need to be automated
 
     for (const sp of targets_obj) {
         let link =
@@ -88,7 +87,7 @@ async function get_targets(fips, loc_id) {
         const res = await fetch(query);
         const targets = await res.json();
         const dest = document.querySelector("#targets");
-        dest.innerHTML = parse_species(targets);
+        dest.innerHTML = parse_species(fips, targets);
     } catch (e) {
         console.error(e);
     } finally {
