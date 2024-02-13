@@ -76,6 +76,10 @@ countySearchInput.addEventListener('input', (e) => {
 });
 
 function zoomToCountyGetHotspots(click) {
+    // add selected county to county search box
+    const co_name = click.layer.feature.properties.COUNTY_NAME;
+    document.querySelector('#county-input').value = co_name;
+
     const bb = click.sourceTarget._bounds;
     map.fitBounds(bb);
     const fips = click.layer.feature.properties.COUNTY_FIPS_CODE
