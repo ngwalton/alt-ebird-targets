@@ -63,6 +63,18 @@ get_co_bnds()
         });
     });
 
+// add event listener to search counties from search box
+const countySearchInput = document.querySelector('#county-input');
+countySearchInput.addEventListener('input', (e) => {
+    // avoid matching on the empty string
+    const value = e.target.value.toLocaleLowerCase() || null;
+    const counties = document.querySelectorAll('#county-search-list li')
+    counties.forEach(co => {
+        const chosen =  co.textContent.toLocaleLowerCase().startsWith(value);
+        co.classList.toggle('visible', chosen);
+    });
+});
+
 function zoomToCountyGetHotspots(click) {
     const bb = click.sourceTarget._bounds;
     map.fitBounds(bb);
