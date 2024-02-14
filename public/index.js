@@ -105,6 +105,15 @@ countySearchInput.addEventListener('keydown', (e) => {
     }
 });
 
+// remove all hotspots from map
+function clearHotspots() {
+    map.eachLayer(layer => {
+        if (layer.feature?.name === "hotspot_locations") {
+            map.removeLayer(layer);
+        }
+    });
+}
+
 function zoomToCountyGetHotspots(click) {
     // add selected county to county search box
     const co_name = click.layer.feature.properties.COUNTY_NAME;
@@ -114,11 +123,7 @@ function zoomToCountyGetHotspots(click) {
     map.fitBounds(bb);
     const fips = click.layer.feature.properties.COUNTY_FIPS_CODE
         .padStart(3, '0');
-    map.eachLayer(layer => {
-        if (layer.feature?.name === "hotspot_locations") {
-            map.removeLayer(layer);
-        }
-    });
+    clearHotspots();
     get_county_hotspots(`US-WI-${fips}`);
 }
 
