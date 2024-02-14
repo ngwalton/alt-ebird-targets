@@ -136,6 +136,24 @@ function zoomToCountyGetHotspots(click) {
     get_county_hotspots(`US-WI-${fips}`);
 }
 
+// to do: this is a place holder. need to finish placing the species in the
+// search ul
+// function to populate the species search
+async function populateSpeciesSearch(fips) {
+    try {
+        const query = `county-species-list?fips=${fips}`;
+        const res = await fetch(query);
+        const targets = await res.json();
+        console.log(targets);
+        // const dest = document.querySelector("#targets");
+        // dest.innerHTML = parse_species(fips, targets);
+    } catch (e) {
+        console.error(e);
+    } finally {
+        console.log("Getting data for: " + fips);
+    }
+}
+
 // function to parse ebird species object and format as html
 function parse_species(fips, targets_obj) {
     let res = '';
