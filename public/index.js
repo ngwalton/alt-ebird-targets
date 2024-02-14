@@ -87,18 +87,27 @@ countySearchInput.addEventListener('keydown', (e) => {
         const county = Array.from(counties)
             .filter(co => {
                 return co.textContent.toLocaleLowerCase().startsWith(value)
-            })[0].textContent;
+            })[0];
 
-        countySearchInput.value = county;
+        countySearchInput.value = county.textContent;
         counties.forEach(co => co.classList.toggle('visible', false));
 
         // zoom to selected county
         map.eachLayer(layer => {
-            if (layer.feature?.properties?.COUNTY_NAME === county) {
+            if (layer.feature?.properties?.COUNTY_NAME === county.textContent) {
                 const bb = layer._bounds;
                 map.fitBounds(bb);
             }
         });
+
+        clearHotspots();
+
+        // add hotspots if hotspot targets is selected
+        const target_type = document
+            .querySelector('input[name="type-radio"]:checked').value;
+        if (target_type === 'hotspot') {
+            get_county_hotspots(county.id);
+        }
     } catch (e) {
         // to do: this should be a popup or something more elegant
         alert('Enter valid county');
