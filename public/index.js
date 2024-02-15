@@ -63,34 +63,38 @@ get_co_bnds()
         });
     });
 
-// add event listener to search counties from search box
-const countySearchInput = document.querySelector('#county-input');
-countySearchInput.addEventListener('input', (e) => {
-    // avoid matching on the empty string
-    const value = e.target.value.toLocaleLowerCase() || null;
-    const counties = document.querySelectorAll('#county-search-list li');
-    counties.forEach(co => {
-        // use "startsWith" search for counties
-        const chosen =  co.textContent.toLocaleLowerCase().startsWith(value);
-        co.classList.toggle('visible', chosen);
-    });
-});
+// add input event listener to search counties from search box
+addSearchEventListener('county', 'startsWith');
 
 // add event listener to search hotspots from search box
-const hotspotSearchInput = document.querySelector('#hotspot-input');
-hotspotSearchInput.addEventListener('input', (e) => {
-    // avoid matching on the empty string
-    const value = e.target.value.toLocaleLowerCase() || null;
-    const hotspots = document.querySelectorAll('#hotspot-search-list li');
-    hotspots.forEach(hp => {
-        // use "includes" search for hotspots
-        const chosen =  hp.textContent.toLocaleLowerCase().includes(value);
-        hp.classList.toggle('visible', chosen);
+addSearchEventListener('hotspot', 'includes');
+
+// add event listener to search species from search box
+// uncomment when species list feature is added
+// addSearchEventListener('species', 'includes');
+
+// function to add an input search event listener for each of the search boxes
+// name is the name of the input and matchMethod should be one of "includes" or
+// "startsWith"
+function addSearchEventListener(name, matchMethod) {
+    const searchInput = document.querySelector(`#${name}-input`);
+    searchInput.addEventListener('input', (e) => {
+        // avoid matching on the empty string
+        const value = e.target.value.toLocaleLowerCase() || null;
+        const listItems = document.querySelectorAll(`#${name}-search-list li`);
+        listItems.forEach(item => {
+            let chosen =  item.textContent.toLocaleLowerCase();
+            chosen = matchMethod === 'includes' ?
+                chosen.includes(value) : chosen.startsWith(value);
+
+            item.classList.toggle('visible', chosen);
+        });
     });
-});
+}
 
 // on clicking the enter key, the first county in the results is placed in the
 // search box
+const countySearchInput = document.querySelector('#county-input');
 countySearchInput.addEventListener('keydown', (e) => {
     if (e.key !== 'Enter') return;
 
