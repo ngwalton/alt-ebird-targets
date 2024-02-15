@@ -305,6 +305,7 @@ function addEnterEventListener(name, fn, matchMethod = 'startsWith') {
             fn(selected);
         } catch (e) {
             // to do: this should be a popup or something more elegant
+            console.error(e);
             alert(`Enter valid ${name}`);
         }
     });
