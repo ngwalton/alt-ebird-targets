@@ -19,26 +19,18 @@ L.control.scale().addTo(map);
 
 L.control.zoom({position: 'topright'}).addTo(map);
 
-// used this method to expose co_bnds to global env for future manipulation
-// but there may be a better way to accomplish this
-let co_bnds;
+// uncomment this to expose co_bnds to global env for testing
+// let co_bnds;
+// add county bounds to map and populate the county search list
 get_co_bnds()
     .then(co_bnds_json => {
+        // add bounds to map
         co_bnds = L.geoJSON(co_bnds_json)
             .on('click', zoomToCountyGetHotspots);
         co_bnds.addTo(map);
-
-        // populate the county search box
-        const co_props = co_bnds_json.features.map(f => f.properties);
-        const co_search = document.querySelector('#county-search-list');
-        co_props.forEach(co_prop => {
-            const li = document.createElement('li');
-            li.classList.add('search-item');
-            li.id = `US-WI-${co_prop.COUNTY_FIPS_CODE.padStart(3, '0')}`;
-            li.textContent = co_prop.COUNTY_NAME;
-            co_search.append(li);
-        });
-    });
+        return co_bnds_json;
+    })
+    .then(populateCountySearch);
 
 // add input event listener to search counties from search box
 addSearchEventListener('county', 'startsWith');
@@ -248,6 +240,19 @@ function addSearchEventListener(name, matchMethod) {
 // function to return the currently selected target type
 function getTargetType() {
     return document.querySelector('input[name="type-radio"]:checked').value;
+}
+
+// function to populate county search box from geojson
+function populateCountySearch(co_bnds_json) {
+    const co_props = co_bnds_json.features.map(f => f.properties);
+    const co_search = document.querySelector('#county-search-list');
+    co_props.forEach(co_prop => {
+        const li = document.createElement('li');
+        li.classList.add('search-item');
+        li.id = `US-WI-${co_prop.COUNTY_FIPS_CODE.padStart(3, '0')}`;
+        li.textContent = co_prop.COUNTY_NAME;
+        co_search.append(li);
+    });
 }
 
 // function to populate hotspot search; hotspots is a hotspots geojson
