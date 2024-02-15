@@ -43,27 +43,18 @@ addSearchEventListener('hotspot', 'includes');
 // addSearchEventListener('species', 'includes');
 
 // on clicking the enter key, the first county in the results is placed in the
-// search box
-const countySearchInput = document.querySelector('#county-input');
-countySearchInput.addEventListener('keydown', (e) => {
-    if (e.key !== 'Enter') return;
-
-    try {
-        // select the top menu result and get the corresponding li
-        const county = selectTopItemOnEnter(e, 'county');
-
-        // zoom to selected county
-        map.eachLayer(layer => {
-            if (layer.feature?.properties?.COUNTY_NAME === county.textContent) {
-                const bb = layer._bounds;
-                zoomToCountyGetHotspots(county.textContent, county.id, bb);
-            }
-        });
-    } catch (e) {
-        // to do: this should be a popup or something more elegant
-        alert('Enter valid county');
-    }
+// search box and the map zooms to that county
+addEnterEventListener('county', county => {
+    // zoom to selected county
+    map.eachLayer(layer => {
+        if (layer.feature?.properties?.COUNTY_NAME === county.textContent) {
+            const bb = layer._bounds;
+            zoomToCountyGetHotspots(county.textContent, county.id, bb);
+        }
+    });
 });
+
+
 
 // event listener to clear/add hotspots on map based on selected target type
 const radioInput = document.querySelector('#type-radio-form');
@@ -281,13 +272,15 @@ async function populateSpeciesSearch(fips) {
 // function to use in an event listener to select the top result on clicking
 // enter. returns the selected li after updating the input value and removing
 // search results
-function selectTopItemOnEnter(event, name) {
+function selectTopItemOnEnter(event, name, matchMethod) {
     // avoid matching on the empty string
     const value = event.target.value.toLowerCase() || null;
     const listItems = document.querySelectorAll(`#${name}-search-list li`);
     const selected = Array.from(listItems)
         .filter(item => {
-            return item.textContent.toLowerCase().startsWith(value)
+            const chosen =  item.textContent.toLowerCase();
+            return matchMethod === 'includes' ?
+                chosen.includes(value) : chosen.startsWith(value);
         })[0];
 
     const searchInput = document.querySelector(`#${name}-input`);
@@ -295,6 +288,26 @@ function selectTopItemOnEnter(event, name) {
     listItems.forEach(item => item.classList.toggle('visible', false));
 
     return selected;
+}
+
+// on clicking the enter key, the first li in the results is placed in the
+// search box and a search type specific function is run with the first li as
+// the input
+function addEnterEventListener(name, fn, matchMethod = 'startsWith') {
+    const searchInput = document.querySelector(`#${name}-input`);
+    searchInput.addEventListener('keydown', (e) => {
+        if (e.key !== 'Enter') return;
+
+        try {
+            // select the top menu result and get the corresponding li
+            const selected = selectTopItemOnEnter(e, name, matchMethod);
+
+            fn(selected);
+        } catch (e) {
+            // to do: this should be a popup or something more elegant
+            alert(`Enter valid ${name}`);
+        }
+    });
 }
 
 
