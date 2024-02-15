@@ -80,10 +80,10 @@ function addSearchEventListener(name, matchMethod) {
     const searchInput = document.querySelector(`#${name}-input`);
     searchInput.addEventListener('input', (e) => {
         // avoid matching on the empty string
-        const value = e.target.value.toLocaleLowerCase() || null;
+        const value = e.target.value.toLowerCase() || null;
         const listItems = document.querySelectorAll(`#${name}-search-list li`);
         listItems.forEach(item => {
-            let chosen =  item.textContent.toLocaleLowerCase();
+            let chosen =  item.textContent.toLowerCase();
             chosen = matchMethod === 'includes' ?
                 chosen.includes(value) : chosen.startsWith(value);
 
@@ -100,11 +100,11 @@ countySearchInput.addEventListener('keydown', (e) => {
 
     try {
         // avoid matching on the empty string
-        const value = e.target.value.toLocaleLowerCase() || null;
+        const value = e.target.value.toLowerCase() || null;
         const counties = document.querySelectorAll('#county-search-list li');
         const county = Array.from(counties)
             .filter(co => {
-                return co.textContent.toLocaleLowerCase().startsWith(value)
+                return co.textContent.toLowerCase().startsWith(value)
             })[0];
 
         countySearchInput.value = county.textContent;
