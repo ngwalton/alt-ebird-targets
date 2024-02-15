@@ -70,8 +70,22 @@ countySearchInput.addEventListener('input', (e) => {
     const value = e.target.value.toLocaleLowerCase() || null;
     const counties = document.querySelectorAll('#county-search-list li');
     counties.forEach(co => {
+        // use "startsWith" search for counties
         const chosen =  co.textContent.toLocaleLowerCase().startsWith(value);
         co.classList.toggle('visible', chosen);
+    });
+});
+
+// add event listener to search hotspots from search box
+const hotspotSearchInput = document.querySelector('#hotspot-input');
+hotspotSearchInput.addEventListener('input', (e) => {
+    // avoid matching on the empty string
+    const value = e.target.value.toLocaleLowerCase() || null;
+    const hotspots = document.querySelectorAll('#hotspot-search-list li');
+    hotspots.forEach(hp => {
+        // use "includes" search for hotspots
+        const chosen =  hp.textContent.toLocaleLowerCase().includes(value);
+        hp.classList.toggle('visible', chosen);
     });
 });
 
