@@ -26,7 +26,7 @@ get_co_bnds()
     .then(co_bnds_json => {
         // add bounds to map
         co_bnds = L.geoJSON(co_bnds_json)
-            .on('click', zoomToCountyGetHotspots);
+            .on('click', zoomToCountyGetHotspotsOnClick);
         co_bnds.addTo(map);
         return co_bnds_json;
     })
@@ -56,18 +56,9 @@ countySearchInput.addEventListener('keydown', (e) => {
         map.eachLayer(layer => {
             if (layer.feature?.properties?.COUNTY_NAME === county.textContent) {
                 const bb = layer._bounds;
-                map.fitBounds(bb);
+                zoomToCountyGetHotspots(county.textContent, county.id, bb);
             }
         });
-
-        clearHotspots();
-
-        // add hotspots if hotspot targets is selected
-        if (getTargetType() === 'hotspot') {
-            get_county_hotspots(county.id)
-                .then(hotspots => populateHotspotSearch(hotspots))
-                .catch(e => console.error(e));
-        }
     } catch (e) {
         // to do: this should be a popup or something more elegant
         alert('Enter valid county');
@@ -143,19 +134,24 @@ function clearHotspots() {
     });
 }
 
-function zoomToCountyGetHotspots(click) {
-    // add selected county to county search box
+function zoomToCountyGetHotspotsOnClick(click) {
     const co_name = click.layer.feature.properties.COUNTY_NAME;
-    document.querySelector('#county-input').value = co_name;
-
     const bb = click.sourceTarget._bounds;
-    map.fitBounds(bb);
     const fips = click.layer.feature.properties.COUNTY_FIPS_CODE
         .padStart(3, '0');
+    zoomToCountyGetHotspots(co_name, `US-WI-${fips}`, bb);
+}
+
+function zoomToCountyGetHotspots(co_name, fips, bb) {
+    // add selected county to county search box
+    document.querySelector('#county-input').value = co_name;
+
+    map.fitBounds(bb);
     clearHotspots();
 
+    // add hotspots if hotspot targets is selected
     if (getTargetType() === 'hotspot') {
-        get_county_hotspots(`US-WI-${fips}`)
+        get_county_hotspots(fips)
             .then(hotspots => populateHotspotSearch(hotspots))
             .catch(e => console.error(e));
     }
