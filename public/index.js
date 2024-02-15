@@ -137,6 +137,25 @@ countySearchInput.addEventListener('keydown', (e) => {
     }
 });
 
+// event listener to clear/add hotspots on map based on selected target type
+const radioInput = document.querySelector('#type-radio-form');
+radioInput.addEventListener('change', e => {
+    const countyEntered = document.querySelector('#county-input').value.length;
+    if (getTargetType() === 'hotspot' && countyEntered) {
+        const event = new KeyboardEvent('keydown', {
+            key: 'Enter',
+            code: 'Enter',
+            which: 13,
+            keyCode: 13
+        });
+
+        countySearchInput.dispatchEvent(event);
+        return;
+    }
+
+    clearHotspots();
+});
+
 // remove all hotspots from map
 function clearHotspots() {
     map.eachLayer(layer => {
