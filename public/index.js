@@ -156,9 +156,12 @@ function zoomToCountyGetHotspots(click) {
     const fips = click.layer.feature.properties.COUNTY_FIPS_CODE
         .padStart(3, '0');
     clearHotspots();
-    get_county_hotspots(`US-WI-${fips}`)
-        .then(hotspots => populateHotspotSearch(hotspots))
-        .catch(e => console.error(e));
+
+    if (getTargetType() === 'hotspot') {
+        get_county_hotspots(`US-WI-${fips}`)
+            .then(hotspots => populateHotspotSearch(hotspots))
+            .catch(e => console.error(e));
+    }
 }
 
 // function to populate hotspot search; hotspots is a hotspots geojson
