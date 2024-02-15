@@ -106,7 +106,9 @@ countySearchInput.addEventListener('keydown', (e) => {
         const target_type = document
             .querySelector('input[name="type-radio"]:checked').value;
         if (target_type === 'hotspot') {
-            get_county_hotspots(county.id);
+            get_county_hotspots(county.id)
+                .then(hotspots => populateHotspotSearch(hotspots))
+                .catch(e => console.error(e));
         }
     } catch (e) {
         // to do: this should be a popup or something more elegant
@@ -133,7 +135,26 @@ function zoomToCountyGetHotspots(click) {
     const fips = click.layer.feature.properties.COUNTY_FIPS_CODE
         .padStart(3, '0');
     clearHotspots();
-    get_county_hotspots(`US-WI-${fips}`);
+    get_county_hotspots(`US-WI-${fips}`)
+        .then(hotspots => populateHotspotSearch(hotspots))
+        .catch(e => console.error(e));
+}
+
+// function to populate hotspot search; hotspots is a hotspots geojson
+function populateHotspotSearch(hotspots) {
+    const props = hotspots.features.map(f => f.properties);
+    const search = document.querySelector('#hotspot-search-list');
+
+    // remove any current hotspots
+    search.replaceChildren();
+
+    props.forEach(prop => {
+        const li = document.createElement('li');
+        li.classList.add('search-item');
+        li.id = prop.locId;
+        li.textContent = prop.locName;
+        search.append(li);
+    });
 }
 
 // to do: this is a place holder. need to finish placing the species in the
@@ -220,6 +241,9 @@ async function get_county_hotspots(fips) {
             {onEachFeature: onEachFeature});
 
         hotspot_geo.addTo(map);
+
+        // return the hotspots geojson to pass to populateHotspotSearch
+        return hotspots;
     } catch (e) {
         console.error(e);
     } finally {
