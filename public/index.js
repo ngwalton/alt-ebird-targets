@@ -49,16 +49,8 @@ countySearchInput.addEventListener('keydown', (e) => {
     if (e.key !== 'Enter') return;
 
     try {
-        // avoid matching on the empty string
-        const value = e.target.value.toLowerCase() || null;
-        const counties = document.querySelectorAll('#county-search-list li');
-        const county = Array.from(counties)
-            .filter(co => {
-                return co.textContent.toLowerCase().startsWith(value)
-            })[0];
-
-        countySearchInput.value = county.textContent;
-        counties.forEach(co => co.classList.toggle('visible', false));
+        // select the top menu result and get the corresponding li
+        const county = selectTopItemOnEnter(e, 'county');
 
         // zoom to selected county
         map.eachLayer(layer => {
@@ -288,6 +280,25 @@ async function populateSpeciesSearch(fips) {
     } finally {
         console.log("Getting data for: " + fips);
     }
+}
+
+// function to use in an event listener to select the top result on clicking
+// enter. returns the selected li after updating the input value and removing
+// search results
+function selectTopItemOnEnter(event, name) {
+    // avoid matching on the empty string
+    const value = event.target.value.toLowerCase() || null;
+    const listItems = document.querySelectorAll(`#${name}-search-list li`);
+    const selected = Array.from(listItems)
+        .filter(item => {
+            return item.textContent.toLowerCase().startsWith(value)
+        })[0];
+
+    const searchInput = document.querySelector(`#${name}-input`);
+    searchInput.value = selected.textContent;
+    listItems.forEach(item => item.classList.toggle('visible', false));
+
+    return selected;
 }
 
 
