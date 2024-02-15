@@ -54,6 +54,19 @@ addEnterEventListener('county', county => {
     });
 });
 
+addEnterEventListener('hotspot', hotspot => {
+    // show target species
+    get_targets(hotspot.dataset.fips, hotspot.id);
+
+    // to do:
+    // highlight selected hotspot
+    // map.eachLayer(layer => {
+    //     if (layer.feature?.properties?.locName === hotspot.textContent) {
+    //         unhighlightAll();
+    //         highlight(hotspot.id);
+    //     }
+    // });
+}, 'includes');
 
 
 // event listener to clear/add hotspots on map based on selected target type
@@ -246,6 +259,7 @@ function populateHotspotSearch(hotspots) {
         const li = document.createElement('li');
         li.classList.add('search-item');
         li.id = prop.locId;
+        li.setAttribute('data-fips', prop.subnational2Code);
         li.textContent = prop.locName;
         search.append(li);
     });
