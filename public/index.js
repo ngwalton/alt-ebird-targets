@@ -92,6 +92,11 @@ function addSearchEventListener(name, matchMethod) {
     });
 }
 
+// function to return the currently selected target type
+function getTargetType() {
+    return document.querySelector('input[name="type-radio"]:checked').value;
+}
+
 // on clicking the enter key, the first county in the results is placed in the
 // search box
 const countySearchInput = document.querySelector('#county-input');
@@ -121,9 +126,7 @@ countySearchInput.addEventListener('keydown', (e) => {
         clearHotspots();
 
         // add hotspots if hotspot targets is selected
-        const target_type = document
-            .querySelector('input[name="type-radio"]:checked').value;
-        if (target_type === 'hotspot') {
+        if (getTargetType() === 'hotspot') {
             get_county_hotspots(county.id)
                 .then(hotspots => populateHotspotSearch(hotspots))
                 .catch(e => console.error(e));
