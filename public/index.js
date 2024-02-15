@@ -232,15 +232,6 @@ L.control.scale().addTo(map);
 L.control.zoom({position: 'topright'}).addTo(map);
 
 
-// open and close targets side panel
-function open_targets() {
-    document.querySelector("#target-wrapper").style.position = "static";
-}
-function close_targets() {
-    document.querySelector("#target-wrapper").style.position = "fixed";
-}
-
-
 // toggle hamburger menu open and closed
 const toggleButton = document.querySelector('.toggle-button');
 const navbarLinks = document.querySelector('.navbar-links');
