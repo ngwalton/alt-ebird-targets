@@ -58,14 +58,12 @@ addEnterEventListener('hotspot', hotspot => {
     // show target species
     get_targets(hotspot.dataset.fips, hotspot.id);
 
-    // to do:
-    // highlight selected hotspot
-    // map.eachLayer(layer => {
-    //     if (layer.feature?.properties?.locName === hotspot.textContent) {
-    //         unhighlightAll();
-    //         highlight(hotspot.id);
-    //     }
-    // });
+    // click popup for selected hotspot
+    map.eachLayer(layer => {
+        if (layer.feature?.properties?.locName === hotspot.textContent) {
+            layer.fire('click');
+        }
+    });
 }, 'includes');
 
 
