@@ -6,7 +6,7 @@ let map = L.map('map', {
     zoomControl: false
 });
 
-// open street map basemap
+// add open street map basemap
 let basemap = L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
     attribution:
         '&copy; <a href="http://osm.org/copyright">' +
@@ -15,8 +15,8 @@ let basemap = L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
 
 basemap.addTo(map);
 
+// add scale and zoom widgets
 L.control.scale().addTo(map);
-
 L.control.zoom({position: 'topright'}).addTo(map);
 
 // uncomment this to expose co_bnds to global env for testing
