@@ -15,32 +15,9 @@ let basemap = L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
 
 basemap.addTo(map);
 
-// function to return WI County Bounds: if not found in localStorage, they are
-// downloaded and saved to localStorage before returning the bounds
-async function get_co_bnds() {
-    if (localStorage.co_bnds) {
-        console.log("Retrieved Co Bounds from local storage");
-        return JSON.parse(localStorage.co_bnds);
-    }
+L.control.scale().addTo(map);
 
-    // metadata/api info:
-    // https://data-wi-dnr.opendata.arcgis.com/datasets/wi-dnr::county-boundaries-24k/about
-    const url =
-        "https://dnrmaps.wi.gov/arcgis/rest/services/DW_Map_Dynamic/" +
-        "EN_Basic_Basemap_WTM_Ext_Dynamic_L16/MapServer/3/" +
-        "query?outFields=COUNTY_NAME,COUNTY_FIPS_CODE&where=1%3D1&outSR=4326&f=geojson";
-
-    try {
-        const res = await fetch(url);
-        const co_bnds_json = await res.json();
-        localStorage.co_bnds = JSON.stringify(co_bnds_json);
-
-        console.log("Downloaded Co Bounds and saved to local storage");
-        return co_bnds_json;
-    } catch (e) {
-        console.error(e);
-    }
-}
+L.control.zoom({position: 'topright'}).addTo(map);
 
 // used this method to expose co_bnds to global env for future manipulation
 // but there may be a better way to accomplish this
@@ -72,30 +49,6 @@ addSearchEventListener('hotspot', 'includes');
 // add event listener to search species from search box
 // uncomment when species list feature is added
 // addSearchEventListener('species', 'includes');
-
-// function to add an input search event listener for each of the search boxes
-// name is the name of the input and matchMethod should be one of "includes" or
-// "startsWith"
-function addSearchEventListener(name, matchMethod) {
-    const searchInput = document.querySelector(`#${name}-input`);
-    searchInput.addEventListener('input', (e) => {
-        // avoid matching on the empty string
-        const value = e.target.value.toLowerCase() || null;
-        const listItems = document.querySelectorAll(`#${name}-search-list li`);
-        listItems.forEach(item => {
-            let chosen =  item.textContent.toLowerCase();
-            chosen = matchMethod === 'includes' ?
-                chosen.includes(value) : chosen.startsWith(value);
-
-            item.classList.toggle('visible', chosen);
-        });
-    });
-}
-
-// function to return the currently selected target type
-function getTargetType() {
-    return document.querySelector('input[name="type-radio"]:checked').value;
-}
 
 // on clicking the enter key, the first county in the results is placed in the
 // search box
@@ -156,6 +109,47 @@ radioInput.addEventListener('change', e => {
     clearHotspots();
 });
 
+// toggle hamburger menu open and closed
+const toggleButton = document.querySelector('.toggle-button');
+const navbarLinks = document.querySelector('.navbar-links');
+
+toggleButton.addEventListener('click', () => {
+    navbarLinks.classList.toggle('active');
+});
+
+
+//////// functions ////////
+
+
+//// map related functions ////
+
+// function to return WI County Bounds: if not found in localStorage, they are
+// downloaded and saved to localStorage before returning the bounds
+async function get_co_bnds() {
+    if (localStorage.co_bnds) {
+        console.log("Retrieved Co Bounds from local storage");
+        return JSON.parse(localStorage.co_bnds);
+    }
+
+    // metadata/api info:
+    // https://data-wi-dnr.opendata.arcgis.com/datasets/wi-dnr::county-boundaries-24k/about
+    const url =
+        "https://dnrmaps.wi.gov/arcgis/rest/services/DW_Map_Dynamic/" +
+        "EN_Basic_Basemap_WTM_Ext_Dynamic_L16/MapServer/3/" +
+        "query?outFields=COUNTY_NAME,COUNTY_FIPS_CODE&where=1%3D1&outSR=4326&f=geojson";
+
+    try {
+        const res = await fetch(url);
+        const co_bnds_json = await res.json();
+        localStorage.co_bnds = JSON.stringify(co_bnds_json);
+
+        console.log("Downloaded Co Bounds and saved to local storage");
+        return co_bnds_json;
+    } catch (e) {
+        console.error(e);
+    }
+}
+
 // remove all hotspots from map
 function clearHotspots() {
     map.eachLayer(layer => {
@@ -181,6 +175,79 @@ function zoomToCountyGetHotspots(click) {
             .then(hotspots => populateHotspotSearch(hotspots))
             .catch(e => console.error(e));
     }
+}
+
+// function to display hotspot name, n species reported, and link to
+// open hotspot targets on hotspot popup
+function onEachFeature(feature, layer) {
+    let popupContent =
+        `<div class="pop-header">
+            <a href="https://ebird.org/hotspot/${feature.properties.locId}"
+                target="_blank">
+                ${feature.properties.locName}
+            </a>
+        </div>
+        <div class="n-species-obs">
+            <p>Species confirmed:
+                ${feature.properties.numSpeciesAllTime}</p>
+        </div>
+        <div>
+            <button type="button" class="btn btn-primary"
+                onclick='get_targets("${feature.properties.subnational2Code}",
+                    "${feature.properties.locId}");'>
+                Target species
+            </button>
+        </div>`;
+
+    layer.bindPopup(popupContent);
+}
+
+// function to load county hotspots from ebird servers
+async function get_county_hotspots(fips) {
+    try {
+        const query = `./get-county-hotspots?fips=${fips}`
+        const res = await fetch(query);
+        const hotspots = await res.json();
+
+        let hotspot_geo = L.geoJSON(hotspots,
+            {onEachFeature: onEachFeature});
+
+        hotspot_geo.addTo(map);
+
+        // return the hotspots geojson to pass to populateHotspotSearch
+        return hotspots;
+    } catch (e) {
+        console.error(e);
+    } finally {
+        console.log("Getting hotspots for: " + fips);
+    }
+}
+
+
+//// search related functions ////
+
+// function to add an input search event listener for each of the search boxes
+// name is the name of the input and matchMethod should be one of "includes" or
+// "startsWith"
+function addSearchEventListener(name, matchMethod) {
+    const searchInput = document.querySelector(`#${name}-input`);
+    searchInput.addEventListener('input', (e) => {
+        // avoid matching on the empty string
+        const value = e.target.value.toLowerCase() || null;
+        const listItems = document.querySelectorAll(`#${name}-search-list li`);
+        listItems.forEach(item => {
+            let chosen =  item.textContent.toLowerCase();
+            chosen = matchMethod === 'includes' ?
+                chosen.includes(value) : chosen.startsWith(value);
+
+            item.classList.toggle('visible', chosen);
+        });
+    });
+}
+
+// function to return the currently selected target type
+function getTargetType() {
+    return document.querySelector('input[name="type-radio"]:checked').value;
 }
 
 // function to populate hotspot search; hotspots is a hotspots geojson
@@ -218,6 +285,9 @@ async function populateSpeciesSearch(fips) {
     }
 }
 
+
+//// target results related functions ////
+
 // function to parse ebird species object and format as html
 function parse_species(fips, targets_obj) {
     let res = '';
@@ -247,62 +317,3 @@ async function get_targets(fips, loc_id) {
         console.log("Getting data for: " + loc_id);
     }
 }
-
-// function to display hotspot name, n species reported, and link to
-// open hotspot targets on hotspot popup
-function onEachFeature(feature, layer) {
-    let popupContent =
-        `<div class="pop-header">
-            <a href="https://ebird.org/hotspot/${feature.properties.locId}"
-                target="_blank">
-                ${feature.properties.locName}
-            </a>
-        </div>
-        <div class="n-species-obs">
-            <p>Species confirmed:
-                ${feature.properties.numSpeciesAllTime}</p>
-        </div>
-        <div>
-            <button type="button" class="btn btn-primary" 
-                onclick='get_targets("${feature.properties.subnational2Code}",
-                    "${feature.properties.locId}");'>
-                Target species
-            </button>
-        </div>`;
-
-    layer.bindPopup(popupContent);
-}
-
-// function to load county hotspots from ebird servers
-async function get_county_hotspots(fips) {
-    try {
-        const query = `./get-county-hotspots?fips=${fips}`
-        const res = await fetch(query);
-        const hotspots = await res.json();
-
-        let hotspot_geo = L.geoJSON(hotspots,
-            {onEachFeature: onEachFeature});
-
-        hotspot_geo.addTo(map);
-
-        // return the hotspots geojson to pass to populateHotspotSearch
-        return hotspots;
-    } catch (e) {
-        console.error(e);
-    } finally {
-        console.log("Getting hotspots for: " + fips);
-    }
-}
-
-L.control.scale().addTo(map);
-
-L.control.zoom({position: 'topright'}).addTo(map);
-
-
-// toggle hamburger menu open and closed
-const toggleButton = document.querySelector('.toggle-button');
-const navbarLinks = document.querySelector('.navbar-links');
-
-toggleButton.addEventListener('click', () => {
-    navbarLinks.classList.toggle('active');
-});
