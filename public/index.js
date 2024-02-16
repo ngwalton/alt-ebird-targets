@@ -163,23 +163,26 @@ function zoomToCountyGetHotspots(co_name, fips, bb) {
 // function to display hotspot name, n species reported, and link to
 // open hotspot targets on hotspot popup
 function onEachFeature(feature, layer) {
+    const {locId, locName, subnational2Code, numSpeciesAllTime} =
+        feature.properties;
+
     let popupContent =
         `<div class='pop-header'>
-            <a href='https://ebird.org/hotspot/${feature.properties.locId}'
+            <a href='https://ebird.org/hotspot/${locId}'
                 target='_blank'>
-                ${feature.properties.locName}
+                ${locName}
             </a>
         </div>
         <div class='n-species-obs'>
             <p>Species confirmed:
-                ${feature.properties.numSpeciesAllTime}</p>
+                ${numSpeciesAllTime}</p>
         </div>
         <div>
             <button type='button' class='btn btn-primary'
                 onclick="getTargetsUpdateInput(
-                        '${feature.properties.subnational2Code}',
-                        '${feature.properties.locId}',
-                        '${feature.properties.locName.replace(/'/g, "\\'")}'
+                        '${subnational2Code}',
+                        '${locId}',
+                        '${locName.replace(/'/g, "\\'")}'
                     );">
                 Target species
             </button>
