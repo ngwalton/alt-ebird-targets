@@ -164,25 +164,34 @@ function zoomToCountyGetHotspots(co_name, fips, bb) {
 // open hotspot targets on hotspot popup
 function onEachFeature(feature, layer) {
     let popupContent =
-        `<div class="pop-header">
-            <a href="https://ebird.org/hotspot/${feature.properties.locId}"
-                target="_blank">
+        `<div class='pop-header'>
+            <a href='https://ebird.org/hotspot/${feature.properties.locId}'
+                target='_blank'>
                 ${feature.properties.locName}
             </a>
         </div>
-        <div class="n-species-obs">
+        <div class='n-species-obs'>
             <p>Species confirmed:
                 ${feature.properties.numSpeciesAllTime}</p>
         </div>
         <div>
-            <button type="button" class="btn btn-primary"
-                onclick='get_targets("${feature.properties.subnational2Code}",
-                    "${feature.properties.locId}");'>
+            <button type='button' class='btn btn-primary'
+                onclick="getTargetsUpdateInput(
+                        '${feature.properties.subnational2Code}',
+                        '${feature.properties.locId}',
+                        '${feature.properties.locName.replace(/'/g, "\\'")}'
+                    );">
                 Target species
             </button>
         </div>`;
 
     layer.bindPopup(popupContent);
+}
+
+function getTargetsUpdateInput(fips, id, name) {
+    get_targets(fips, id);
+    const hotspotInput = document.querySelector(`#hotspot-input`);
+    hotspotInput.value = name;
 }
 
 // function to load county hotspots from ebird servers
