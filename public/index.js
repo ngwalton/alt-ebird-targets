@@ -166,6 +166,10 @@ function zoomToCountyGetHotspots(co_name, fips, bb) {
             .then(hotspots => populateHotspotSearch(hotspots))
             .catch(e => console.error(e));
     }
+
+    if (getTargetType() === 'species') {
+        populateSpeciesSearch(fips);
+    }
 }
 
 // function to display hotspot name, n species reported, and link to
@@ -291,10 +295,20 @@ async function populateSpeciesSearch(fips) {
     try {
         const query = `county-species-list?fips=${fips}`;
         const res = await fetch(query);
-        const targets = await res.json();
-        console.log(targets);
-        // const dest = document.querySelector("#targets");
-        // dest.innerHTML = parse_species(fips, targets);
+        const species = await res.json();
+
+        const search = document.querySelector('#species-search-list');
+
+        // remove any current species
+        search.replaceChildren();
+
+        species.forEach(sp => {
+            const li = document.createElement('li');
+            li.classList.add('search-item');
+            li.id = sp.speciesCode;
+            li.textContent = sp.comName;
+            search.append(li);
+        });
     } catch (e) {
         console.error(e);
     } finally {
