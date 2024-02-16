@@ -1,5 +1,5 @@
 // create an empty map displayed in the div with corresponding id
-let map = L.map('map', {
+const map = L.map('map', {
     center: [44.7863, -89.8470],
     zoom: 7,
     minZoom: 6,
@@ -7,7 +7,7 @@ let map = L.map('map', {
 });
 
 // add open street map basemap
-let basemap = L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
+const basemap = L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
     attribution:
         '&copy; <a href="http://osm.org/copyright">' +
             'OpenStreetMap</a> contributors'
@@ -20,7 +20,7 @@ L.control.scale().addTo(map);
 L.control.zoom({position: 'topright'}).addTo(map);
 
 // uncomment this to expose co_bnds to global env for testing
-// let co_bnds;
+// const co_bnds;
 // add county bounds to map and populate the county search list
 get_co_bnds()
     .then(co_bnds_json => {
@@ -166,7 +166,7 @@ function onEachFeature(feature, layer) {
     const {locId, locName, subnational2Code, numSpeciesAllTime} =
         feature.properties;
 
-    let popupContent =
+    const popupContent =
         `<div class='pop-header'>
             <a href='https://ebird.org/hotspot/${locId}'
                 target='_blank'>
@@ -204,7 +204,7 @@ async function get_county_hotspots(fips) {
         const res = await fetch(query);
         const hotspots = await res.json();
 
-        let hotspot_geo = L.geoJSON(hotspots,
+        const hotspot_geo = L.geoJSON(hotspots,
             {onEachFeature: onEachFeature});
 
         hotspot_geo.addTo(map);
@@ -344,7 +344,7 @@ function parse_species(fips, targets_obj) {
     let res = '';
 
     for (const sp of targets_obj) {
-        let link =
+        const link =
             `https://ebird.org/wi/species/${sp.speciesCode}/${fips}`;
         res += `<p><a href="${link}" target="_blank">
             <span class="comName">${sp.comName}</span></a></br>
