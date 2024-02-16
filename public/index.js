@@ -52,6 +52,9 @@ addEnterEventListener('county', county => {
             zoomToCountyGetHotspots(county.textContent, county.id, bb);
         }
     });
+
+    clearSearchInput('hotspot');
+    clearSearchInput('species');
 });
 
 addEnterEventListener('hotspot', hotspot => {
@@ -334,6 +337,11 @@ function addEnterEventListener(name, fn, matchMethod = 'startsWith') {
             alert(`Enter valid ${name}`);
         }
     });
+}
+
+// function to clear search input fields
+function clearSearchInput(name) {
+    document.querySelector(`#${name}-input`).value = '';
 }
 
 
