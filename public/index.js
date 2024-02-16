@@ -147,6 +147,10 @@ function zoomToCountyGetHotspotsOnClick(click) {
     const fips = click.layer.feature.properties.COUNTY_FIPS_CODE
         .padStart(3, '0');
     zoomToCountyGetHotspots(co_name, `US-WI-${fips}`, bb);
+
+    clearSearchInput('hotspot');
+    clearSearchInput('species');
+    clearTargetsList();
 }
 
 function zoomToCountyGetHotspots(co_name, fips, bb) {
