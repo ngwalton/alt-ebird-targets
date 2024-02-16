@@ -55,6 +55,7 @@ addEnterEventListener('county', county => {
 
     clearSearchInput('hotspot');
     clearSearchInput('species');
+    clearTargetsList();
 });
 
 addEnterEventListener('hotspot', hotspot => {
@@ -342,6 +343,10 @@ function addEnterEventListener(name, fn, matchMethod = 'startsWith') {
 // function to clear search input fields
 function clearSearchInput(name) {
     document.querySelector(`#${name}-input`).value = '';
+}
+
+function clearTargetsList() {
+    document.querySelector("#targets").replaceChildren();
 }
 
 
