@@ -40,7 +40,7 @@ addSearchEventListener('hotspot', 'includes');
 
 // add event listener to search species from search box
 // uncomment when species list feature is added
-// addSearchEventListener('species', 'includes');
+addSearchEventListener('species', 'includes');
 
 // on clicking the enter key, the first county in the results is placed in the
 // search box and the map zooms to that county
