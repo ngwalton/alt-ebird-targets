@@ -163,7 +163,8 @@ function zoomToCountyGetHotspots(co_name, fips, bb) {
     // add hotspots if hotspot targets is selected
     if (getTargetType() === 'hotspot') {
         get_county_hotspots(fips)
-            .then(hotspots => populateHotspotSearch(hotspots))
+            .then(populateHotspotSearch)
+            .then(add_hotspots_to_map)
             .catch(e => console.error(e));
     }
 
@@ -216,18 +217,21 @@ async function get_county_hotspots(fips) {
         const res = await fetch(query);
         const hotspots = await res.json();
 
-        const hotspot_geo = L.geoJSON(hotspots,
-            {onEachFeature: onEachFeature});
-
-        hotspot_geo.addTo(map);
-
-        // return the hotspots geojson to pass to populateHotspotSearch
+        // return the hotspots geojson to pass to other functions
         return hotspots;
     } catch (e) {
         console.error(e);
     } finally {
         console.log("Getting hotspots for: " + fips);
     }
+}
+
+// function to take a hotspots geojson and add it to the map
+function add_hotspots_to_map(hotspots) {
+    const hotspot_geo = L.geoJSON(hotspots,
+        {onEachFeature: onEachFeature});
+
+    hotspot_geo.addTo(map);
 }
 
 
@@ -286,6 +290,8 @@ function populateHotspotSearch(hotspots) {
         li.textContent = prop.locName;
         search.append(li);
     });
+
+    return hotspots;
 }
 
 // to do: this is a place holder. need to finish placing the species in the
