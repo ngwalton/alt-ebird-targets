@@ -84,7 +84,7 @@ const radioInput = document.querySelector('#type-radio-form');
 radioInput.addEventListener('change', e => {
     const countySearchInput = document.querySelector('#county-input');
     const countyEntered = countySearchInput.value.length;
-    if (getTargetType() === 'hotspot' && countyEntered) {
+    if (countyEntered) {
         const event = new KeyboardEvent('keydown', {
             key: 'Enter',
             code: 'Enter',
