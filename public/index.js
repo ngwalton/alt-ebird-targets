@@ -70,6 +70,14 @@ addEnterEventListener('hotspot', hotspot => {
     });
 }, 'includes');
 
+addEnterEventListener('species', species => {
+    get_hotspots_for_species(species.dataset.fips, species.id)
+        .then(hotspots => {
+            clearHotspots();
+            add_hotspots_to_map(hotspots);
+        });
+}, 'includes');
+
 
 // event listener to clear/add hotspots on map based on selected target type
 const radioInput = document.querySelector('#type-radio-form');
@@ -312,6 +320,7 @@ async function populateSpeciesSearch(fips) {
             const li = document.createElement('li');
             li.classList.add('search-item');
             li.id = sp.speciesCode;
+            li.setAttribute('data-fips', fips);
             li.textContent = sp.comName;
             search.append(li);
         });
@@ -391,6 +400,20 @@ function parse_species(fips, targets_obj) {
     return res;
 }
 
+// function to parse ebird hotspot object and format as html
+function parse_hotspots(targets_obj) {
+    let res = '';
+
+    for (const hotspot of targets_obj) {
+        const link =
+            `https://ebird.org/wi/hotspot/${hotspot.properties.locId}`;
+        res += `<p><a href="${link}" target="_blank">
+            <span class="hotspot">${hotspot.properties.locName}</span></a></p>`;
+    };
+
+    return res;
+}
+
 // function to fetch target species for selected hotspot
 async function get_targets(fips, loc_id) {
     try {
@@ -403,5 +426,21 @@ async function get_targets(fips, loc_id) {
         console.error(e);
     } finally {
         console.log("Getting data for: " + loc_id);
+    }
+}
+
+// function to fetch target hotspots for selected species
+async function get_hotspots_for_species(fips, alpha) {
+    try {
+        const query = `species-target?fips=${fips}&alpha=${alpha}`;
+        const res = await fetch(query);
+        const targets = await res.json();
+        const dest = document.querySelector("#targets");
+        dest.innerHTML = parse_hotspots(targets);
+        return targets;
+    } catch (e) {
+        console.error(e);
+    } finally {
+        console.log("Getting data for: " + alpha);
     }
 }
