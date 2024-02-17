@@ -55,7 +55,7 @@ app.get('/species-target', async (req, res) => {
 
         // return an array of hotspot names
         // remove .map to return array of hotspot objects
-        res.json(species_target_list.map(x => x.properties.locName));
+        res.json(species_target_list);
     } catch (e) {
         console.error(e);
     }
