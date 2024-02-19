@@ -1,16 +1,24 @@
 {
-  "name": "hotspot_targets",
+  "name": "alt-ebird-targets",
   "version": "1.0.0",
   "description": "List bird species not yet found at an eBird hotspot.",
   "main": "index.js",
   "scripts": {
     "devStart": "nodemon server.js"
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ngwalton/alt-ebird-targets.git"
+  },
   "keywords": [
     "ebird"
   ],
   "author": "Nicholas Walton",
   "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ngwalton/alt-ebird-targets/issues"
+  },
+  "homepage": "https://github.com/ngwalton/alt-ebird-targets#readme",
   "dependencies": {
     "dotenv": "^16.3.1",
     "ejs": "^3.1.9",
