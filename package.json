@@ -10,7 +10,7 @@
     "ebird"
   ],
   "author": "Nicholas Walton",
-  "license": "ISC",
+  "license": "MIT",
   "dependencies": {
     "dotenv": "^16.3.1",
     "ejs": "^3.1.9",
