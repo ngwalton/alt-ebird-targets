@@ -1,7 +1,7 @@
 {
   "name": "hotspot_targets",
   "version": "1.0.0",
-  "description": "List bird species not yet found an eBird hotspot.",
+  "description": "List bird species not yet found at an eBird hotspot.",
   "main": "index.js",
   "scripts": {
     "devStart": "nodemon server.js"
