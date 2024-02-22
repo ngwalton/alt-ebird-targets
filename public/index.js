@@ -1,3 +1,4 @@
+/* eslint no-undef: "off" -- L is defined in the leaflet library */
 // create an empty map displayed in the div with corresponding id
 const map = L.map('map', {
   center: [44.7863, -89.847],
