@@ -10,10 +10,10 @@ function get_query(req) {
 // function to download general ebird data
 async function get_ebird_data(url) {
   try {
-    let myHeaders = new Headers();
+    const myHeaders = new Headers();
     myHeaders.append('X-eBirdApiToken', process.env.EBIRD_API_KEY);
 
-    let requestOptions = {
+    const requestOptions = {
       method: 'GET',
       headers: myHeaders,
       redirect: 'follow',
@@ -33,16 +33,16 @@ async function get_ebird_data(url) {
 // ebird calls this "subnational2Code"
 async function get_hotspots(fips) {
   try {
-    let hotspots_url = `https://api.ebird.org/v2/ref/hotspot/${fips}?fmt=json`;
-    let hotspots_array = await get_ebird_data(hotspots_url);
+    const hotspots_url = `https://api.ebird.org/v2/ref/hotspot/${fips}?fmt=json`;
+    const hotspots_array = await get_ebird_data(hotspots_url);
 
-    let hotspot_geo = {
+    const hotspot_geo = {
       type: 'FeatureCollection',
       features: [],
     };
 
-    for (let hotspot of hotspots_array) {
-      let feature = {
+    for (const hotspot of hotspots_array) {
+      const feature = {
         type: 'Feature',
         name: 'hotspot_locations',
         geometry: {
@@ -73,7 +73,7 @@ async function get_hotspots(fips) {
 // loc can be an ebird fips/subnational2Code or a hotspot id
 async function get_species_list(loc) {
   try {
-    const county_url = 'https://api.ebird.org/v2/product/spplist/' + loc;
+    const county_url = `https://api.ebird.org/v2/product/spplist/${loc}`;
 
     const species_list = await get_ebird_data(county_url);
 
@@ -106,11 +106,8 @@ async function get_hotspot_target_list(fips, hotspot) {
 // returns an array of species objects
 async function get_ebird_taxonomy(species_list) {
   try {
-    const species_pattern = species_list.reduce((a, b) => a + ',' + b);
-    const taxon_url =
-      'https://api.ebird.org/v2/ref/taxonomy/ebird?species=' +
-      species_pattern +
-      '&version=2023.0&fmt=json';
+    const species_pattern = species_list.reduce((a, b) => `${a},${b}`);
+    const taxon_url = `https://api.ebird.org/v2/ref/taxonomy/ebird?species=${species_pattern}&version=2023.0&fmt=json`;
 
     const taxon_raw = await get_ebird_data(taxon_url);
 
@@ -118,13 +115,11 @@ async function get_ebird_taxonomy(species_list) {
     // taxonomic order
     const taxon = taxon_raw
       .filter((x) => x.category === 'species') // only include full species
-      .map((x) => {
-        return {
-          sciName: x.sciName,
-          comName: x.comName,
-          speciesCode: x.speciesCode,
-        };
-      });
+      .map((x) => ({
+        sciName: x.sciName,
+        comName: x.comName,
+        speciesCode: x.speciesCode,
+      }));
 
     return taxon;
   } catch (e) {

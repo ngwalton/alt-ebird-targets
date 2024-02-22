@@ -117,9 +117,9 @@ toggleButton.addEventListener('click', () => {
   navbarLinks.classList.toggle('active');
 });
 
-//////// functions ////////
+/* functions */
 
-//// map related functions ////
+/* map related functions */
 
 // function to return WI County Bounds: if not found in localStorage, they are
 // downloaded and saved to localStorage before returning the bounds
@@ -236,18 +236,18 @@ async function get_county_hotspots(fips) {
   } catch (e) {
     console.error(e);
   } finally {
-    console.log('Getting hotspots for: ' + fips);
+    console.log(`Getting hotspots for: ${fips}`);
   }
 }
 
 // function to take a hotspots geojson and add it to the map
 function add_hotspots_to_map(hotspots) {
-  const hotspot_geo = L.geoJSON(hotspots, { onEachFeature: onEachFeature });
+  const hotspot_geo = L.geoJSON(hotspots, { onEachFeature });
 
   hotspot_geo.addTo(map);
 }
 
-//// search related functions ////
+/* search related functions */
 
 // function to add an input search event listener for each of the search boxes
 // name is the name of the input and matchMethod should be one of "includes" or
@@ -333,7 +333,7 @@ async function populateSpeciesSearch(fips) {
   } catch (e) {
     console.error(e);
   } finally {
-    console.log('Getting data for: ' + fips);
+    console.log(`Getting data for: ${fips}`);
   }
 }
 
@@ -388,7 +388,7 @@ function clearTargetsList() {
   document.querySelector('#targets').replaceChildren();
 }
 
-//// target results related functions ////
+/* target results related functions */
 
 // function to parse ebird species object and format as html
 function parse_species(fips, targets_obj) {
@@ -428,7 +428,7 @@ async function get_targets(fips, loc_id) {
   } catch (e) {
     console.error(e);
   } finally {
-    console.log('Getting data for: ' + loc_id);
+    console.log(`Getting data for: ${loc_id}`);
   }
 }
 
@@ -444,6 +444,6 @@ async function get_hotspots_for_species(fips, alpha) {
   } catch (e) {
     console.error(e);
   } finally {
-    console.log('Getting data for: ' + alpha);
+    console.log(`Getting data for: ${alpha}`);
   }
 }
