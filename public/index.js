@@ -86,7 +86,7 @@ addEnterEventListener(
 
 // event listener to clear/add hotspots on map based on selected target type
 const radioInput = document.querySelector('#type-radio-form');
-radioInput.addEventListener('change', (e) => {
+radioInput.addEventListener('change', () => {
   const countySearchInput = document.querySelector('#county-input');
   const countyEntered = countySearchInput.value.length;
   if (countyEntered) {
