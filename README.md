@@ -1,13 +1,13 @@
 # alt-ebird-targets
 
-A web app to help you discover species that have *not* been reported from your
+A web app to help you discover species that have _not_ been reported from your
 favorite Wisconsin [eBird](https://ebird.org/home)
 [hotspots](https://ebird.org/hotspots)!
 
 There are currently two modes:
 
-1. List bird species that have *not* been reported from a selected eBird hotspot
-1. List eBird hotspots in a county where a selected species has *not* been reported
+1. List bird species that have _not_ been reported from a selected eBird hotspot
+1. List eBird hotspots in a county where a selected species has _not_ been reported
 
 The first option (`Hotspot`) lets you choose a Wisconsin county and then a
 hotspot from that county. It will show a list of species that have been reported
@@ -27,5 +27,5 @@ confirmed from a hotspot or region but not reported by the user.
 
 This website incorporates data the following APIs:
 
-* [eBird API 2.0](https://documenter.getpostman.com/view/664302/S1ENwy59)
-* [WI DNR Open Data: County Boundaries 24K](https://data-wi-dnr.opendata.arcgis.com/datasets/wi-dnr::county-boundaries-24k/about)
+- [eBird API 2.0](https://documenter.getpostman.com/view/664302/S1ENwy59)
+- [WI DNR Open Data: County Boundaries 24K](https://data-wi-dnr.opendata.arcgis.com/datasets/wi-dnr::county-boundaries-24k/about)
