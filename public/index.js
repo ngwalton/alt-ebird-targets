@@ -190,25 +190,25 @@ function onEachFeature(feature, layer) {
     feature.properties;
 
   const popupContent = `<div class='pop-header'>
-            <a href='https://ebird.org/hotspot/${locId}'
-                target='_blank'>
-                ${locName}
-            </a>
-        </div>
-        <div class='n-species-obs'>
-            <p>Species confirmed:
-                ${numSpeciesAllTime}</p>
-        </div>
-        <div>
-            <button type='button' class='btn btn-primary'
-                onclick="getTargetsUpdateInput(
-                        '${subnational2Code}',
-                        '${locId}',
-                        '${locName.replace(/'/g, "\\'")}'
-                    );">
-                Target species
-            </button>
-        </div>`;
+      <a href='https://ebird.org/hotspot/${locId}'
+        target='_blank'>
+        ${locName}
+      </a>
+    </div>
+    <div class='n-species-obs'>
+      <p>Species confirmed:
+        ${numSpeciesAllTime}</p>
+    </div>
+    <div>
+      <button type='button' class='btn btn-primary'
+        onclick="getTargetsUpdateInput(
+          '${subnational2Code}',
+          '${locId}',
+          '${locName.replace(/'/g, "\\'")}'
+        );">
+        Target species
+      </button>
+    </div>`;
 
   layer.bindPopup(popupContent);
 }
