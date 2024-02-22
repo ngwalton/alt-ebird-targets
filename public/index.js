@@ -48,7 +48,7 @@ addEnterEventListener('county', (county) => {
   // zoom to selected county
   map.eachLayer((layer) => {
     if (layer.feature?.properties?.COUNTY_NAME === county.textContent) {
-      const bb = layer._bounds;
+      const bb = layer.getBounds();
       zoomToCountyGetHotspots(county.textContent, county.id, bb);
     }
   });
@@ -155,7 +155,7 @@ function clearHotspots() {
 
 function zoomToCountyGetHotspotsOnClick(click) {
   const coName = click.layer.feature.properties.COUNTY_NAME;
-  const bb = click.sourceTarget._bounds;
+  const bb = click.sourceTarget.getBounds();
   const fips = click.layer.feature.properties.COUNTY_FIPS_CODE.padStart(3, '0');
   zoomToCountyGetHotspots(coName, `US-WI-${fips}`, bb);
 
