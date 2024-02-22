@@ -358,12 +358,12 @@ function selectTopItemOnEnter(event, name, matchMethod) {
 // the input
 function addEnterEventListener(name, fn, matchMethod = 'startsWith') {
   const searchInput = document.querySelector(`#${name}-input`);
-  searchInput.addEventListener('keydown', (e) => {
-    if (e.key !== 'Enter') return;
+  searchInput.addEventListener('keydown', (event) => {
+    if (event.key !== 'Enter') return;
 
     try {
       // select the top menu result and get the corresponding li
-      const selected = selectTopItemOnEnter(e, name, matchMethod);
+      const selected = selectTopItemOnEnter(event, name, matchMethod);
 
       fn(selected);
     } catch (e) {
