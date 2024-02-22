@@ -19,18 +19,15 @@ basemap.addTo(map);
 L.control.scale().addTo(map);
 L.control.zoom({ position: 'topright' }).addTo(map);
 
-// uncomment this to expose co_bnds to global env for testing
-// const co_bnds;
+// uncomment this to expose coBnds to global env for testing
+// const coBnds;
 // add county bounds to map and populate the county search list
-get_co_bnds()
-  .then((co_bnds_json) => {
+getCoBnds()
+  .then((coBndsJSON) => {
     // add bounds to map
-    co_bnds = L.geoJSON(co_bnds_json).on(
-      'click',
-      zoomToCountyGetHotspotsOnClick,
-    );
-    co_bnds.addTo(map);
-    return co_bnds_json;
+    coBnds = L.geoJSON(coBndsJSON).on('click', zoomToCountyGetHotspotsOnClick);
+    coBnds.addTo(map);
+    return coBndsJSON;
   })
   .then(populateCountySearch);
 
@@ -64,7 +61,7 @@ addEnterEventListener(
   'hotspot',
   (hotspot) => {
     // show target species
-    get_targets(hotspot.dataset.fips, hotspot.id);
+    getTargets(hotspot.dataset.fips, hotspot.id);
 
     // click popup for selected hotspot
     map.eachLayer((layer) => {
@@ -79,12 +76,10 @@ addEnterEventListener(
 addEnterEventListener(
   'species',
   (species) => {
-    get_hotspots_for_species(species.dataset.fips, species.id).then(
-      (hotspots) => {
-        clearHotspots();
-        add_hotspots_to_map(hotspots);
-      },
-    );
+    getHotspotsForSpecies(species.dataset.fips, species.id).then((hotspots) => {
+      clearHotspots();
+      addHotspotsToMap(hotspots);
+    });
   },
   'includes',
 );
@@ -123,10 +118,10 @@ toggleButton.addEventListener('click', () => {
 
 // function to return WI County Bounds: if not found in localStorage, they are
 // downloaded and saved to localStorage before returning the bounds
-async function get_co_bnds() {
-  if (localStorage.co_bnds) {
+async function getCoBnds() {
+  if (localStorage.coBnds) {
     console.log('Retrieved Co Bounds from local storage');
-    return JSON.parse(localStorage.co_bnds);
+    return JSON.parse(localStorage.coBnds);
   }
 
   // metadata/api info:
@@ -138,11 +133,11 @@ async function get_co_bnds() {
 
   try {
     const res = await fetch(url);
-    const co_bnds_json = await res.json();
-    localStorage.co_bnds = JSON.stringify(co_bnds_json);
+    const coBndsJSON = await res.json();
+    localStorage.coBnds = JSON.stringify(coBndsJSON);
 
     console.log('Downloaded Co Bounds and saved to local storage');
-    return co_bnds_json;
+    return coBndsJSON;
   } catch (e) {
     console.error(e);
   }
@@ -158,28 +153,28 @@ function clearHotspots() {
 }
 
 function zoomToCountyGetHotspotsOnClick(click) {
-  const co_name = click.layer.feature.properties.COUNTY_NAME;
+  const coName = click.layer.feature.properties.COUNTY_NAME;
   const bb = click.sourceTarget._bounds;
   const fips = click.layer.feature.properties.COUNTY_FIPS_CODE.padStart(3, '0');
-  zoomToCountyGetHotspots(co_name, `US-WI-${fips}`, bb);
+  zoomToCountyGetHotspots(coName, `US-WI-${fips}`, bb);
 
   clearSearchInput('hotspot');
   clearSearchInput('species');
   clearTargetsList();
 }
 
-function zoomToCountyGetHotspots(co_name, fips, bb) {
+function zoomToCountyGetHotspots(coName, fips, bb) {
   // add selected county to county search box
-  document.querySelector('#county-input').value = co_name;
+  document.querySelector('#county-input').value = coName;
 
   map.fitBounds(bb);
   clearHotspots();
 
   // add hotspots if hotspot targets is selected
   if (getTargetType() === 'hotspot') {
-    get_county_hotspots(fips)
+    getCountyHotspots(fips)
       .then(populateHotspotSearch)
-      .then(add_hotspots_to_map)
+      .then(addHotspotsToMap)
       .catch((e) => console.error(e));
   }
 
@@ -219,13 +214,13 @@ function onEachFeature(feature, layer) {
 }
 
 function getTargetsUpdateInput(fips, id, name) {
-  get_targets(fips, id);
+  getTargets(fips, id);
   const hotspotInput = document.querySelector(`#hotspot-input`);
   hotspotInput.value = name;
 }
 
 // function to load county hotspots from ebird servers
-async function get_county_hotspots(fips) {
+async function getCountyHotspots(fips) {
   try {
     const query = `./get-county-hotspots?fips=${fips}`;
     const res = await fetch(query);
@@ -241,10 +236,10 @@ async function get_county_hotspots(fips) {
 }
 
 // function to take a hotspots geojson and add it to the map
-function add_hotspots_to_map(hotspots) {
-  const hotspot_geo = L.geoJSON(hotspots, { onEachFeature });
+function addHotspotsToMap(hotspots) {
+  const hotspotGeo = L.geoJSON(hotspots, { onEachFeature });
 
-  hotspot_geo.addTo(map);
+  hotspotGeo.addTo(map);
 }
 
 /* search related functions */
@@ -276,15 +271,15 @@ function getTargetType() {
 }
 
 // function to populate county search box from geojson
-function populateCountySearch(co_bnds_json) {
-  const co_props = co_bnds_json.features.map((f) => f.properties);
-  const co_search = document.querySelector('#county-search-list');
-  co_props.forEach((co_prop) => {
+function populateCountySearch(coBndsJSON) {
+  const coProps = coBndsJSON.features.map((f) => f.properties);
+  const coSearch = document.querySelector('#county-search-list');
+  coProps.forEach((coProp) => {
     const li = document.createElement('li');
     li.classList.add('search-item');
-    li.id = `US-WI-${co_prop.COUNTY_FIPS_CODE.padStart(3, '0')}`;
-    li.textContent = co_prop.COUNTY_NAME;
-    co_search.append(li);
+    li.id = `US-WI-${coProp.COUNTY_FIPS_CODE.padStart(3, '0')}`;
+    li.textContent = coProp.COUNTY_NAME;
+    coSearch.append(li);
   });
 }
 
@@ -391,10 +386,10 @@ function clearTargetsList() {
 /* target results related functions */
 
 // function to parse ebird species object and format as html
-function parse_species(fips, targets_obj) {
+function parseSpecies(fips, targetsObj) {
   let res = '';
 
-  for (const sp of targets_obj) {
+  for (const sp of targetsObj) {
     const link = `https://ebird.org/wi/species/${sp.speciesCode}/${fips}`;
     res += `<p><a href="${link}" target="_blank">
             <span class="comName">${sp.comName}</span></a></br>
@@ -405,10 +400,10 @@ function parse_species(fips, targets_obj) {
 }
 
 // function to parse ebird hotspot object and format as html
-function parse_hotspots(targets_obj) {
+function parseHotspots(targetsObj) {
   let res = '';
 
-  for (const hotspot of targets_obj) {
+  for (const hotspot of targetsObj) {
     const link = `https://ebird.org/wi/hotspot/${hotspot.properties.locId}`;
     res += `<p><a href="${link}" target="_blank">
             <span class="hotspot">${hotspot.properties.locName}</span></a></p>`;
@@ -418,28 +413,28 @@ function parse_hotspots(targets_obj) {
 }
 
 // function to fetch target species for selected hotspot
-async function get_targets(fips, loc_id) {
+async function getTargets(fips, locID) {
   try {
-    const query = `hotspot-targets?fips=${fips}&hotspot=${loc_id}`;
+    const query = `hotspot-targets?fips=${fips}&hotspot=${locID}`;
     const res = await fetch(query);
     const targets = await res.json();
     const dest = document.querySelector('#targets');
-    dest.innerHTML = parse_species(fips, targets);
+    dest.innerHTML = parseSpecies(fips, targets);
   } catch (e) {
     console.error(e);
   } finally {
-    console.log(`Getting data for: ${loc_id}`);
+    console.log(`Getting data for: ${locID}`);
   }
 }
 
 // function to fetch target hotspots for selected species
-async function get_hotspots_for_species(fips, alpha) {
+async function getHotspotsForSpecies(fips, alpha) {
   try {
     const query = `species-target?fips=${fips}&alpha=${alpha}`;
     const res = await fetch(query);
     const targets = await res.json();
     const dest = document.querySelector('#targets');
-    dest.innerHTML = parse_hotspots(targets);
+    dest.innerHTML = parseHotspots(targets);
     return targets;
   } catch (e) {
     console.error(e);

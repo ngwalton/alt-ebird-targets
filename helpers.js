@@ -1,14 +1,14 @@
 const querystring = require('node:querystring');
 
-function get_query(req) {
-  const base_url = `${req.protocol}://${req.headers.host}/`;
-  const req_url = new URL(req.url, base_url);
-  const query = req_url.search.replace('?', '');
+function getQuery(req) {
+  const baseURL = `${req.protocol}://${req.headers.host}/`;
+  const reqURL = new URL(req.url, baseURL);
+  const query = reqURL.search.replace('?', '');
   return querystring.parse(query);
 }
 
 // function to download general ebird data
-async function get_ebird_data(url) {
+async function getEbirdData(url) {
   try {
     const myHeaders = new Headers();
     myHeaders.append('X-eBirdApiToken', process.env.EBIRD_API_KEY);
@@ -31,17 +31,17 @@ async function get_ebird_data(url) {
 // function to download hotspots for a given county
 // US counties are specified by ebird using FIPS (e.g., "US-WI-055")
 // ebird calls this "subnational2Code"
-async function get_hotspots(fips) {
+async function getHotspots(fips) {
   try {
-    const hotspots_url = `https://api.ebird.org/v2/ref/hotspot/${fips}?fmt=json`;
-    const hotspots_array = await get_ebird_data(hotspots_url);
+    const hotspotsURL = `https://api.ebird.org/v2/ref/hotspot/${fips}?fmt=json`;
+    const hotspotsArray = await getEbirdData(hotspotsURL);
 
-    const hotspot_geo = {
+    const hotspotGeo = {
       type: 'FeatureCollection',
       features: [],
     };
 
-    for (const hotspot of hotspots_array) {
+    for (const hotspot of hotspotsArray) {
       const feature = {
         type: 'Feature',
         name: 'hotspot_locations',
@@ -59,10 +59,10 @@ async function get_hotspots(fips) {
         },
       };
 
-      hotspot_geo.features.push(feature);
+      hotspotGeo.features.push(feature);
     }
 
-    return hotspot_geo;
+    return hotspotGeo;
   } catch (e) {
     console.error(e);
   }
@@ -71,13 +71,13 @@ async function get_hotspots(fips) {
 // function to download species list for a given region or hotspot
 // returns a array of 6-letter common name alpha codes
 // loc can be an ebird fips/subnational2Code or a hotspot id
-async function get_species_list(loc) {
+async function getSpeciesList(loc) {
   try {
-    const county_url = `https://api.ebird.org/v2/product/spplist/${loc}`;
+    const countyURL = `https://api.ebird.org/v2/product/spplist/${loc}`;
 
-    const species_list = await get_ebird_data(county_url);
+    const speciesList = await getEbirdData(countyURL);
 
-    return species_list;
+    return speciesList;
   } catch (e) {
     console.error(e);
   }
@@ -85,35 +85,33 @@ async function get_species_list(loc) {
 
 // function to download target species list for a given hotspot
 // returns a array of 6-letter common name alpha codes
-async function get_hotspot_target_list(fips, hotspot) {
+async function getHotspotTargetList(fips, hotspot) {
   try {
-    const county_list = await get_species_list(fips);
-    const hotspot_list = await get_species_list(hotspot);
+    const countyList = await getSpeciesList(fips);
+    const hotspotList = await getSpeciesList(hotspot);
 
-    // remove species from county_list that are in hotspot_list
-    const hotspot_targets = county_list.filter(
-      (x) => !hotspot_list.includes(x),
-    );
+    // remove species from countyList that are in hotspotList
+    const hotspotTargets = countyList.filter((x) => !hotspotList.includes(x));
 
-    return hotspot_targets;
+    return hotspotTargets;
   } catch (e) {
     console.error(e);
   }
 }
 
 // function to download and parse ebird taxonomy for given list of species
-// species_list is an array of 6-letter common name alpha codes
+// alpha6s is an array of 6-letter common name alpha codes
 // returns an array of species objects
-async function get_ebird_taxonomy(species_list) {
+async function getEbirdTaxonomy(alpha6s) {
   try {
-    const species_pattern = species_list.reduce((a, b) => `${a},${b}`);
-    const taxon_url = `https://api.ebird.org/v2/ref/taxonomy/ebird?species=${species_pattern}&version=2023.0&fmt=json`;
+    const alpha6csv = alpha6s.reduce((a, b) => `${a},${b}`);
+    const taxonURL = `https://api.ebird.org/v2/ref/taxonomy/ebird?species=${alpha6csv}&version=2023.0&fmt=json`;
 
-    const taxon_raw = await get_ebird_data(taxon_url);
+    const taxonRaw = await getEbirdData(taxonURL);
 
     // for taxonomic sort add x['taxonOrder'], but should already be in
     // taxonomic order
-    const taxon = taxon_raw
+    const taxon = taxonRaw
       .filter((x) => x.category === 'species') // only include full species
       .map((x) => ({
         sciName: x.sciName,
@@ -130,55 +128,55 @@ async function get_ebird_taxonomy(species_list) {
 // it seems this functionality is currently not supported by the ebird api
 // at the subnational2Code scale
 // function to download species list for adjacent regions (counties)
-// async function get_adjacent_species_list(fips) {
+// async function getAdjacentSpeciesList(fips) {
 //     try {
 //         const url = `https://api.ebird.org/v2/ref/adjacent/${fips}`;
-//         const adjacent_counties = get_ebird_data(url);
+//         const adjacentCounties = getEbirdData(url);
 
-//         return adjacent_counties;
+//         return adjacentCounties;
 //     } catch {e} {
 //         console.error(e);
 //     }
 // }
 
-// exports.get_adjacent_species_list = get_adjacent_species_list;
+// exports.getAdjacentSpeciesList = getAdjacentSpeciesList;
 
 // function to download species lists for all hotspots in a county and check if
 // a given species has been confirmed at each
 // returns an an array of hotspot objects where species alpha has not been
 // confirmed
 // alpha is a 6-letter common name alpha code
-async function get_species_target_list(fips, alpha) {
+async function getSpeciesTargetList(fips, alpha) {
   try {
-    const hotspots = await get_hotspots(fips);
+    const hotspots = await getHotspots(fips);
 
-    const species_list_promises = hotspots.features.map((hotspot) =>
-      get_species_list(hotspot.properties.locId),
+    const speciesListPromises = hotspots.features.map((hotspot) =>
+      getSpeciesList(hotspot.properties.locId),
     );
 
-    const hotspot_species_lists = await Promise.all(
-      species_list_promises,
-    ).catch((_) => {
-      console.log(`Attempting to download ${alpha} a second time`);
-      return Promise.all(species_list_promises);
-    });
-
-    const hotspots_without_confirmed_obs = hotspots.features.filter(
-      (_, i) => !hotspot_species_lists[i].includes(alpha),
+    const hotspotSpeciesLists = await Promise.all(speciesListPromises).catch(
+      () => {
+        console.log(`Attempting to download ${alpha} a second time`);
+        return Promise.all(speciesListPromises);
+      },
     );
 
-    return hotspots_without_confirmed_obs;
+    const hotspotsWithoutConfirmedObs = hotspots.features.filter(
+      (_, i) => !hotspotSpeciesLists[i].includes(alpha),
+    );
+
+    return hotspotsWithoutConfirmedObs;
   } catch (e) {
     console.error(e);
   }
 }
 
 module.exports = {
-  get_query,
-  get_ebird_data,
-  get_hotspots,
-  get_species_list,
-  get_hotspot_target_list,
-  get_ebird_taxonomy,
-  get_species_target_list,
+  getQuery,
+  getEbirdData,
+  getHotspots,
+  getSpeciesList,
+  getHotspotTargetList,
+  getEbirdTaxonomy,
+  getSpeciesTargetList,
 };
