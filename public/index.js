@@ -270,6 +270,13 @@ function getTargetType() {
   return document.querySelector('input[name="type-radio"]:checked').value;
 }
 
+// function to select the clicked search-list item and call enter
+function searchListClick(name, event) {
+  const searchInput = document.querySelector(`#${name}-input`);
+  searchInput.value = event.currentTarget.textContent;
+  searchInput.dispatchEvent(enterEvent());
+}
+
 // function to populate county search box from geojson
 function populateCountySearch(coBndsJSON) {
   const coProps = coBndsJSON.features.map((f) => f.properties);
@@ -279,6 +286,7 @@ function populateCountySearch(coBndsJSON) {
     li.classList.add('search-item');
     li.id = `US-WI-${coProp.COUNTY_FIPS_CODE.padStart(3, '0')}`;
     li.textContent = coProp.COUNTY_NAME;
+    li.addEventListener('click', (event) => searchListClick('county', event));
     coSearch.append(li);
   });
 }
@@ -297,6 +305,7 @@ function populateHotspotSearch(hotspots) {
     li.id = prop.locId;
     li.setAttribute('data-fips', prop.subnational2Code);
     li.textContent = prop.locName;
+    li.addEventListener('click', (event) => searchListClick('hotspot', event));
     search.append(li);
   });
 
@@ -323,6 +332,9 @@ async function populateSpeciesSearch(fips) {
       li.id = sp.speciesCode;
       li.setAttribute('data-fips', fips);
       li.textContent = sp.comName;
+      li.addEventListener('click', (event) =>
+        searchListClick('species', event),
+      );
       search.append(li);
     });
   } catch (e) {
