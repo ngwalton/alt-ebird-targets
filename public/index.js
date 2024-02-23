@@ -277,16 +277,35 @@ function searchListClick(name, event) {
   searchInput.dispatchEvent(enterEvent());
 }
 
+// function to populate a li element for search results
+// data is an optional object of data classes to add
+// data should have the form: {'data-name': 'value', 'data-name2': 'value'}
+// name is the name of the search input (i.e., county, hotspot, species)
+function populateLi(id, textContent, name, data = {}) {
+  const li = document.createElement('li');
+  li.classList.add('search-item');
+  li.id = id;
+
+  if (Object.keys(data).length) {
+    Object.entries(data).forEach(([key, value]) => {
+      li.setAttribute(key, value);
+    });
+  }
+
+  li.textContent = textContent;
+  li.addEventListener('click', (event) => searchListClick(name, event));
+
+  return li;
+}
+
 // function to populate county search box from geojson
 function populateCountySearch(coBndsJSON) {
   const coProps = coBndsJSON.features.map((f) => f.properties);
   const coSearch = document.querySelector('#county-search-list');
+
   coProps.forEach((coProp) => {
-    const li = document.createElement('li');
-    li.classList.add('search-item');
-    li.id = `US-WI-${coProp.COUNTY_FIPS_CODE.padStart(3, '0')}`;
-    li.textContent = coProp.COUNTY_NAME;
-    li.addEventListener('click', (event) => searchListClick('county', event));
+    const id = `US-WI-${coProp.COUNTY_FIPS_CODE.padStart(3, '0')}`;
+    const li = populateLi(id, coProp.COUNTY_NAME, 'county');
     coSearch.append(li);
   });
 }
@@ -300,12 +319,8 @@ function populateHotspotSearch(hotspots) {
   search.replaceChildren();
 
   props.forEach((prop) => {
-    const li = document.createElement('li');
-    li.classList.add('search-item');
-    li.id = prop.locId;
-    li.setAttribute('data-fips', prop.subnational2Code);
-    li.textContent = prop.locName;
-    li.addEventListener('click', (event) => searchListClick('hotspot', event));
+    const data = { 'data-fips': prop.subnational2Code };
+    const li = populateLi(prop.locId, prop.locName, 'hotspot', data);
     search.append(li);
   });
 
@@ -327,14 +342,8 @@ async function populateSpeciesSearch(fips) {
     search.replaceChildren();
 
     species.forEach((sp) => {
-      const li = document.createElement('li');
-      li.classList.add('search-item');
-      li.id = sp.speciesCode;
-      li.setAttribute('data-fips', fips);
-      li.textContent = sp.comName;
-      li.addEventListener('click', (event) =>
-        searchListClick('species', event),
-      );
+      const data = { 'data-fips': fips };
+      const li = populateLi(sp.speciesCode, sp.comName, 'species', data);
       search.append(li);
     });
   } catch (e) {
