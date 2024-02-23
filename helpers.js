@@ -42,7 +42,7 @@ async function getHotspots(fips) {
       features: [],
     };
 
-    for (const hotspot of hotspotsArray) {
+    hotspotsArray.forEach((hotspot) => {
       const feature = {
         type: 'Feature',
         name: 'hotspot_locations',
@@ -61,7 +61,7 @@ async function getHotspots(fips) {
       };
 
       hotspotGeo.features.push(feature);
-    }
+    });
 
     return hotspotGeo;
   } catch (e) {
