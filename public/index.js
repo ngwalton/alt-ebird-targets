@@ -92,14 +92,7 @@ radioInput.addEventListener('change', () => {
   const countySearchInput = document.querySelector('#county-input');
   const countyEntered = countySearchInput.value.length;
   if (countyEntered) {
-    const event = new KeyboardEvent('keydown', {
-      key: 'Enter',
-      code: 'Enter',
-      which: 13,
-      keyCode: 13,
-    });
-
-    countySearchInput.dispatchEvent(event);
+    countySearchInput.dispatchEvent(enterEvent());
     return;
   }
 
@@ -388,6 +381,15 @@ function clearSearchInput(name) {
 
 function clearTargetsList() {
   document.querySelector('#targets').replaceChildren();
+}
+
+function enterEvent() {
+  return new KeyboardEvent('keydown', {
+    key: 'Enter',
+    code: 'Enter',
+    which: 13,
+    keyCode: 13,
+  });
 }
 
 /* target results related functions */
