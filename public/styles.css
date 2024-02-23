@@ -339,8 +339,21 @@ path.leaflet-interactive {
 }
 
 .search-item {
-  background-color: #e7e7e7;
   display: none;
+}
+
+/* applied to all .visible in .search-list  */
+.search-list > .visible {
+  background-color: #b8b8b8;
+}
+
+/* applied to all but the first .visible in .search-list */
+.search-list > .visible ~ .visible {
+  background-color: #e7e7e7;
+}
+
+.search-item.visible:hover {
+  background-color: #cfcfcf;
 }
 
 .search-item.visible {
