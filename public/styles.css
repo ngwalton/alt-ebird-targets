@@ -339,6 +339,7 @@ path.leaflet-interactive {
 }
 
 .search-item {
+  cursor: pointer;
   display: none;
 }
 
