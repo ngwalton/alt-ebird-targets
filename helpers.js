@@ -25,6 +25,7 @@ async function getEbirdData(url) {
     return out;
   } catch (e) {
     console.error(e);
+    return null;
   }
 }
 
@@ -65,6 +66,7 @@ async function getHotspots(fips) {
     return hotspotGeo;
   } catch (e) {
     console.error(e);
+    return null;
   }
 }
 
@@ -80,6 +82,7 @@ async function getSpeciesList(loc) {
     return speciesList;
   } catch (e) {
     console.error(e);
+    return null;
   }
 }
 
@@ -96,6 +99,7 @@ async function getHotspotTargetList(fips, hotspot) {
     return hotspotTargets;
   } catch (e) {
     console.error(e);
+    return null;
   }
 }
 
@@ -122,6 +126,7 @@ async function getEbirdTaxonomy(alpha6s) {
     return taxon;
   } catch (e) {
     console.error(e);
+    return null;
   }
 }
 
@@ -136,6 +141,7 @@ async function getEbirdTaxonomy(alpha6s) {
 //         return adjacentCounties;
 //     } catch {e} {
 //         console.error(e);
+//         return null;
 //     }
 // }
 
@@ -168,6 +174,7 @@ async function getSpeciesTargetList(fips, alpha) {
     return hotspotsWithoutConfirmedObs;
   } catch (e) {
     console.error(e);
+    return null;
   }
 }
 

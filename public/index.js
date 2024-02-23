@@ -141,6 +141,7 @@ async function getCoBnds() {
     return coBndsJSON;
   } catch (e) {
     console.error(e);
+    return null;
   }
 }
 
@@ -232,6 +233,7 @@ async function getCountyHotspots(fips) {
     return hotspots;
   } catch (e) {
     console.error(e);
+    return null;
   } finally {
     console.log(`Getting hotspots for: ${fips}`);
   }
@@ -440,6 +442,7 @@ async function getHotspotsForSpecies(fips, alpha) {
     return targets;
   } catch (e) {
     console.error(e);
+    return null;
   } finally {
     console.log(`Getting data for: ${alpha}`);
   }
