@@ -214,6 +214,7 @@ function onEachFeature(feature, layer) {
   layer.bindPopup(popupContent);
 }
 
+// eslint-disable-next-line no-unused-vars -- function is used in onEachFeature
 function getTargetsUpdateInput(fips, id, name) {
   getTargets(fips, id);
   const hotspotInput = document.querySelector(`#hotspot-input`);
