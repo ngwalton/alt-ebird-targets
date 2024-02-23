@@ -388,29 +388,29 @@ function clearTargetsList() {
 
 // function to parse ebird species object and format as html
 function parseSpecies(fips, targetsObj) {
-  let res = '';
-
-  for (const sp of targetsObj) {
+  return targetsObj.reduce((markup, sp) => {
     const link = `https://ebird.org/wi/species/${sp.speciesCode}/${fips}`;
-    res += `<p><a href="${link}" target="_blank">
+
+    // eslint-disable-next-line no-param-reassign
+    markup += `<p><a href="${link}" target="_blank">
             <span class="comName">${sp.comName}</span></a></br>
             (<span class="sciName">${sp.sciName}</span>)</p>`;
-  }
 
-  return res;
+    return markup;
+  }, '');
 }
 
 // function to parse ebird hotspot object and format as html
 function parseHotspots(targetsObj) {
-  let res = '';
-
-  for (const hotspot of targetsObj) {
+  return targetsObj.reduce((markup, hotspot) => {
     const link = `https://ebird.org/wi/hotspot/${hotspot.properties.locId}`;
-    res += `<p><a href="${link}" target="_blank">
-            <span class="hotspot">${hotspot.properties.locName}</span></a></p>`;
-  }
 
-  return res;
+    // eslint-disable-next-line no-param-reassign
+    markup += `<p><a href="${link}" target="_blank">
+            <span class="hotspot">${hotspot.properties.locName}</span></a></p>`;
+
+    return markup;
+  }, '');
 }
 
 // function to fetch target species for selected hotspot
