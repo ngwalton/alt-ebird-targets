@@ -1,4 +1,4 @@
-/* eslint no-undef: "off" -- L is defined in the leaflet library */
+/* eslint-disable no-undef -- L is defined in the leaflet library */
 // create an empty map displayed in the div with corresponding id
 const map = L.map('map', {
   center: [44.7863, -89.847],
@@ -245,6 +245,8 @@ function addHotspotsToMap(hotspots) {
 
   hotspotGeo.addTo(map);
 }
+
+/* eslint-enable no-undef -- done using L */
 
 /* search related functions */
 
