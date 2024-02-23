@@ -1,3 +1,4 @@
+/* eslint-disable no-use-before-define -- chose to use hoisting */
 /* eslint-disable no-undef -- L is defined in the leaflet library */
 // create an empty map displayed in the div with corresponding id
 const map = L.map('map', {
