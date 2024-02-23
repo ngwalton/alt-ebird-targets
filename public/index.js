@@ -399,8 +399,8 @@ function parseSpecies(fips, targetsObj) {
 
     // eslint-disable-next-line no-param-reassign
     markup += `<p><a href="${link}" target="_blank">
-            <span class="comName">${sp.comName}</span></a></br>
-            (<span class="sciName">${sp.sciName}</span>)</p>`;
+      <span class="comName">${sp.comName}</span></a></br>
+      (<span class="sciName">${sp.sciName}</span>)</p>`;
 
     return markup;
   }, '');
@@ -413,7 +413,7 @@ function parseHotspots(targetsObj) {
 
     // eslint-disable-next-line no-param-reassign
     markup += `<p><a href="${link}" target="_blank">
-            <span class="hotspot">${hotspot.properties.locName}</span></a></p>`;
+      <span class="hotspot">${hotspot.properties.locName}</span></a></p>`;
 
     return markup;
   }, '');
