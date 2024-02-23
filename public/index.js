@@ -150,6 +150,12 @@ function clearHotspots() {
 
 function zoomToCountyGetHotspotsOnClick(click) {
   const coName = click.layer.feature.properties.COUNTY_NAME;
+
+  // do nothing if the clicked county is currently selected
+  if (document.querySelector('#county-input').value === coName) {
+    return;
+  }
+
   const bb = click.sourceTarget.getBounds();
   const fips = click.layer.feature.properties.COUNTY_FIPS_CODE.padStart(3, '0');
   zoomToCountyGetHotspots(coName, `US-WI-${fips}`, bb);
