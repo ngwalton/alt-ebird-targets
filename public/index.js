@@ -29,6 +29,8 @@ getCoBnds()
     // add bounds to map
     coBnds = L.geoJSON(coBndsJSON).on('click', zoomToCountyMakeUpdatesOnClick);
     coBnds.addTo(map);
+    // zoom to fit county bounds -- makes sure entire state is visible as start
+    map.flyToBounds(coBnds.getBounds());
     return coBndsJSON;
   })
   .then(populateCountySearch);
