@@ -27,7 +27,7 @@ L.control.zoom({ position: 'topright' }).addTo(map);
 getCoBnds()
   .then((coBndsJSON) => {
     // add bounds to map
-    coBnds = L.geoJSON(coBndsJSON).on('click', zoomToCountyGetHotspotsOnClick);
+    coBnds = L.geoJSON(coBndsJSON).on('click', zoomToCountyMakeUpdatesOnClick);
     coBnds.addTo(map);
     return coBndsJSON;
   })
@@ -50,7 +50,7 @@ addEnterEventListener('county', (county) => {
   map.eachLayer((layer) => {
     if (layer.feature?.properties?.COUNTY_NAME === county.textContent) {
       const bb = layer.getBounds();
-      zoomToCountyGetHotspots(county.textContent, county.id, bb);
+      zoomToCountyMakeUpdates(county.textContent, county.id, bb);
     }
   });
 
@@ -148,7 +148,7 @@ function clearHotspots() {
   });
 }
 
-function zoomToCountyGetHotspotsOnClick(click) {
+function zoomToCountyMakeUpdatesOnClick(click) {
   const coName = click.layer.feature.properties.COUNTY_NAME;
 
   // do nothing if the clicked county is currently selected
@@ -158,7 +158,7 @@ function zoomToCountyGetHotspotsOnClick(click) {
 
   const bb = click.sourceTarget.getBounds();
   const fips = click.layer.feature.properties.COUNTY_FIPS_CODE.padStart(3, '0');
-  zoomToCountyGetHotspots(coName, `US-WI-${fips}`, bb);
+  zoomToCountyMakeUpdates(coName, `US-WI-${fips}`, bb);
 
   clearSearchInput('hotspot');
   clearSearchInput('species');
@@ -166,7 +166,7 @@ function zoomToCountyGetHotspotsOnClick(click) {
   clearTargetsList();
 }
 
-function zoomToCountyGetHotspots(coName, fips, bb) {
+function zoomToCountyMakeUpdates(coName, fips, bb) {
   // add selected county to county search box
   document.querySelector('#county-input').value = coName;
 
