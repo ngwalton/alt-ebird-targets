@@ -53,10 +53,6 @@ addEnterEventListener('county', (county) => {
       zoomToCountyMakeUpdates(county.textContent, county.id, bb);
     }
   });
-
-  clearSearchInput('hotspot');
-  clearSearchInput('species');
-  clearTargetsList();
 });
 
 addEnterEventListener(
@@ -159,11 +155,6 @@ function zoomToCountyMakeUpdatesOnClick(click) {
   const bb = click.sourceTarget.getBounds();
   const fips = click.layer.feature.properties.COUNTY_FIPS_CODE.padStart(3, '0');
   zoomToCountyMakeUpdates(coName, `US-WI-${fips}`, bb);
-
-  clearSearchInput('hotspot');
-  clearSearchInput('species');
-  ['county', 'hotspot', 'species'].forEach((name) => clearSearchItems(name));
-  clearTargetsList();
 }
 
 function zoomToCountyMakeUpdates(coName, fips, bb) {
@@ -171,7 +162,14 @@ function zoomToCountyMakeUpdates(coName, fips, bb) {
   document.querySelector('#county-input').value = coName;
 
   map.fitBounds(bb);
+
+  // clear hotspots, inputs, and search results
   clearHotspots();
+  clearSearchInput('hotspot');
+  clearSearchInput('species');
+  ['species', 'hotspot'].forEach((name) => clearSearchInput(name));
+  ['county', 'hotspot', 'species'].forEach((name) => clearSearchItems(name));
+  clearTargetsList();
 
   // add hotspots if hotspot targets is selected
   if (getTargetType() === 'hotspot') {
