@@ -162,6 +162,7 @@ function zoomToCountyGetHotspotsOnClick(click) {
 
   clearSearchInput('hotspot');
   clearSearchInput('species');
+  ['county', 'hotspot', 'species'].forEach((name) => clearSearchItems(name));
   clearTargetsList();
 }
 
