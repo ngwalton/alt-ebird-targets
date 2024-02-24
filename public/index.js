@@ -168,7 +168,7 @@ function zoomToCountyMakeUpdates(coName, fips, bb) {
   clearSearchInput('hotspot');
   clearSearchInput('species');
   ['species', 'hotspot'].forEach((name) => clearSearchInput(name));
-  ['county', 'hotspot', 'species'].forEach((name) => clearSearchItems(name));
+  ['county', 'hotspot', 'species'].forEach((name) => clearVisSearchItems(name));
   clearTargetsList();
 
   // add hotspots if hotspot targets is selected
@@ -374,7 +374,7 @@ function selectTopItemOnEnter(event, name, matchMethod) {
 
   const searchInput = document.querySelector(`#${name}-input`);
   searchInput.value = selected.textContent;
-  clearSearchItems(name);
+  clearVisSearchItems(name);
 
   return selected;
 }
@@ -405,7 +405,7 @@ function clearSearchInput(name) {
   document.querySelector(`#${name}-input`).value = '';
 }
 
-function clearSearchItems(name) {
+function clearVisSearchItems(name) {
   const searchItems = document.querySelectorAll(
     `#${name}-search-list > li.visible`,
   );
