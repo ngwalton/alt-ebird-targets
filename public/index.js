@@ -375,7 +375,7 @@ function selectTopItemOnEnter(event, name, matchMethod) {
 
   const searchInput = document.querySelector(`#${name}-input`);
   searchInput.value = selected.textContent;
-  listItems.forEach((item) => item.classList.toggle('visible', false));
+  clearSearchItems(name);
 
   return selected;
 }
@@ -404,6 +404,16 @@ function addEnterEventListener(name, fn, matchMethod = 'startsWith') {
 // function to clear search input fields
 function clearSearchInput(name) {
   document.querySelector(`#${name}-input`).value = '';
+}
+
+function clearSearchItems(name) {
+  const searchItems = document.querySelectorAll(
+    `#${name}-search-list > li.visible`,
+  );
+
+  searchItems.forEach((item) => {
+    item.classList.toggle('visible', false);
+  });
 }
 
 function clearTargetsList() {
