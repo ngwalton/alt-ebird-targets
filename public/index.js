@@ -167,8 +167,11 @@ function zoomToCountyMakeUpdates(coName, fips, bb) {
   clearHotspots();
   clearSearchInput('hotspot');
   clearSearchInput('species');
-  ['species', 'hotspot'].forEach((name) => clearSearchInput(name));
-  ['county', 'hotspot', 'species'].forEach((name) => clearVisSearchItems(name));
+  ['species', 'hotspot'].forEach((name) => {
+    clearSearchInput(name);
+    deleteAllSearchItems(name);
+  });
+  clearVisSearchItems('county');
   clearTargetsList();
 
   // add hotspots if hotspot targets is selected
@@ -321,7 +324,7 @@ function populateHotspotSearch(hotspots) {
   const search = document.querySelector('#hotspot-search-list');
 
   // remove any current hotspots
-  search.replaceChildren();
+  deleteAllSearchItems('hotspot');
 
   props.forEach((prop) => {
     const data = { 'data-fips': prop.subnational2Code };
@@ -344,7 +347,7 @@ async function populateSpeciesSearch(fips) {
     const search = document.querySelector('#species-search-list');
 
     // remove any current species
-    search.replaceChildren();
+    deleteAllSearchItems('species');
 
     species.forEach((sp) => {
       const data = { 'data-fips': fips };
@@ -405,6 +408,7 @@ function clearSearchInput(name) {
   document.querySelector(`#${name}-input`).value = '';
 }
 
+// function to clear visible search results
 function clearVisSearchItems(name) {
   const searchItems = document.querySelectorAll(
     `#${name}-search-list > li.visible`,
@@ -413,6 +417,12 @@ function clearVisSearchItems(name) {
   searchItems.forEach((item) => {
     item.classList.toggle('visible', false);
   });
+}
+
+// function to delete all li items a parent search list
+function deleteAllSearchItems(name) {
+  const searchItems = document.querySelector(`#${name}-search-list`);
+  searchItems.replaceChildren();
 }
 
 function clearTargetsList() {
