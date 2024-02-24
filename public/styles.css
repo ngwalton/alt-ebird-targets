@@ -193,6 +193,12 @@ body {
 path.leaflet-interactive {
   stroke: black;
   stroke-width: 1;
+  fill-opacity: 0.2;
+  fill: black;
+  cursor: pointer;
+}
+
+path.leaflet-interactive.clear {
   fill-opacity: 0;
   cursor: grab;
 }

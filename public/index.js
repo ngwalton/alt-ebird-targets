@@ -162,6 +162,7 @@ function zoomToCountyMakeUpdates(coName, fips, bb) {
   document.querySelector('#county-input').value = coName;
 
   map.fitBounds(bb);
+  updateCountyOpacity(fips);
 
   // clear hotspots, inputs, and search results
   clearHotspots();
@@ -185,6 +186,20 @@ function zoomToCountyMakeUpdates(coName, fips, bb) {
   if (getTargetType() === 'species') {
     populateSpeciesSearch(fips);
   }
+}
+
+// add .clear to selected county
+function updateCountyOpacity(fips) {
+  map.eachLayer((layer) => {
+    if (!layer.feature?.properties?.COUNTY_FIPS_CODE) {
+      return;
+    }
+
+    const rawFIPS = parseInt(fips.replace(/\D/g, ''), 10).toString();
+    isSelected = layer.feature.properties.COUNTY_FIPS_CODE === rawFIPS;
+    // eslint-disable-next-line no-underscore-dangle -- access classlist
+    layer._path.classList.toggle('clear', isSelected);
+  });
 }
 
 // function to display hotspot name, n species reported, and link to
