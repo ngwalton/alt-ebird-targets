@@ -218,7 +218,7 @@ function onEachFeature(feature, layer) {
     </div>
     <div class='n-species-obs'>
       <p>Species confirmed:
-        ${numSpeciesAllTime}</p>
+        ${numSpeciesAllTime || 0}</p>
     </div>
     <div>
       <button type='button' class='btn btn-primary'
