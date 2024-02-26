@@ -257,27 +257,6 @@ path.leaflet-interactive.clear {
   border-color: #00436a;
 }
 
-.closebtn {
-  display: flex;
-  padding-right: 10px;
-  flex: 1 1 auto;
-  font-size: 36px;
-  text-decoration: none;
-  color: black;
-  transition: 0.15s;
-  transition-timing-function: ease-in-out;
-}
-
-.closebtn:hover {
-  color: rgb(78, 78, 78);
-  font-weight: bold;
-}
-
-.closebtn:active {
-  color: black;
-  font-weight: bold;
-}
-
 #outer-search-container {
   display: flex;
   flex-direction: column;
