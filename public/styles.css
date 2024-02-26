@@ -286,19 +286,19 @@ path.leaflet-interactive.clear {
 
 .search-label[for="county"]::before {
   content: url(earth.svg);
-  vertical-align: -5%;
+  vertical-align: middle;
   padding-right: 0.3rem;
 }
 
 .search-label[for="hotspot"]::before {
   content: url(locationdot.svg);
-  vertical-align: -5%;
+  vertical-align: middle;
   padding-right: 0.3rem;
 }
 
 .search-label[for="species"]::before {
   content: url(crow.svg);
-  vertical-align: -5%;
+  vertical-align: middle;
   padding-right: 0.3rem;
 }
 
