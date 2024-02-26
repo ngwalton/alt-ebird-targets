@@ -290,19 +290,19 @@ path.leaflet-interactive.clear {
   padding-right: 0; /* doesn't seem to need padding */
 }
 
-.search-label[for="county"]::before {
+.search-label[for="county-input"]::before {
   content: url(earth.svg);
   vertical-align: middle;
   padding-right: 0.1rem;
 }
 
-.search-label[for="hotspot"]::before {
+.search-label[for="hotspot-input"]::before {
   content: url(locationdot.svg);
   vertical-align: middle;
   padding-right: 0.1rem;
 }
 
-.search-label[for="species"]::before {
+.search-label[for="species-input"]::before {
   content: url(crow.svg);
   vertical-align: middle;
   padding-right: 0.1rem;
