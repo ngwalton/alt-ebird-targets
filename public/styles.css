@@ -329,7 +329,7 @@ path.leaflet-interactive.clear {
 
 #outer-search-container {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
 }
 
 .search-container {
