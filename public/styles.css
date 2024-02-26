@@ -284,6 +284,12 @@ path.leaflet-interactive.clear {
   padding-bottom: 0.25rem;
 }
 
+.search-label[for="type-radios"]::before {
+  content: url(target.svg);
+  vertical-align: middle;
+  padding-right: 0; /* doesn't seem to need padding */
+}
+
 .search-label[for="county"]::before {
   content: url(earth.svg);
   vertical-align: middle;
