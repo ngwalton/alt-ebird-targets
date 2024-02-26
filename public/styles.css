@@ -257,6 +257,12 @@ path.leaflet-interactive.clear {
   border-color: #00436a;
 }
 
+#target-nav-container {
+  padding: 0.5rem;
+  background-color: #f8f8f8;
+  border-bottom: gray solid 1px;
+}
+
 #outer-search-container {
   display: flex;
   flex-direction: column;
