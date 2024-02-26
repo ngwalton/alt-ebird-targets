@@ -90,12 +90,28 @@ radioInput.addEventListener('change', () => {
   const countySearchInput = document.querySelector('#county-input');
   const countyEntered = countySearchInput.value.length;
   if (countyEntered) {
+    updateVisibleSearchField();
     countySearchInput.dispatchEvent(enterEvent());
     return;
   }
 
   clearHotspots();
 });
+
+function updateVisibleSearchField() {
+  if (!document.querySelector('#county-input').value.length) {
+    return;
+  }
+
+  const type = getTargetType();
+  const searchInputs = document.querySelectorAll('.search-input');
+
+  searchInputs.forEach((input) => {
+    if (input.name === 'county') return; // skip county
+    const show = input.name === type;
+    input.classList.toggle('show', show);
+  });
+}
 
 // toggle hamburger menu open and closed
 const toggleButton = document.querySelector('.toggle-button');
@@ -188,6 +204,8 @@ function zoomToCountyMakeUpdates(coName, fips, bb) {
   if (getTargetType() === 'species') {
     populateSpeciesSearch(fips);
   }
+
+  updateVisibleSearchField();
 }
 
 // add .clear to selected county
@@ -239,6 +257,18 @@ function getTargetsUpdateInput(fips, id, name) {
   getTargets(fips, id);
   const hotspotInput = document.querySelector(`#hotspot-input`);
   hotspotInput.value = name;
+
+  // update hotspots and set radio to hotspot
+  if (getTargetType() !== 'hotspot') {
+    document.querySelector('#type-hotspot').checked = true;
+
+    getCountyHotspots(fips)
+      .then(populateHotspotSearch)
+      .then(addHotspotsToMap)
+      .catch((e) => console.error(e));
+
+    updateVisibleSearchField();
+  }
 }
 
 // function to load county hotspots from ebird servers

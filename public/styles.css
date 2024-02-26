@@ -338,6 +338,14 @@ path.leaflet-interactive.clear {
   position: relative;
 }
 
+.search-input {
+  display: none;
+}
+
+.search-input.show {
+  display: block;
+}
+
 .search-list {
   position: absolute;
   width: 100%;
