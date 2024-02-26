@@ -272,6 +272,19 @@ path.leaflet-interactive.clear {
   flex-direction: column;
 }
 
+input[type="search"] {
+  border: 1px solid #ccc;
+  border-radius: 2px;
+  background-image: url("searchicon.svg");
+  background-position: 0.5rem 0.5rem;
+  background-repeat: no-repeat;
+  padding: 0.25rem 0.25rem 0.25rem 2rem;
+}
+
+input[type="search"]:focus {
+  outline: #000 solid 1px;
+}
+
 .search-list {
   position: absolute;
   width: 100%;
