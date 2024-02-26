@@ -327,6 +327,10 @@ path.leaflet-interactive.clear {
   display: block;
 }
 
+.type-radio {
+  display: none;
+}
+
 /* media queries */
 
 /* Remove all animations, transitions and smooth scroll for people that prefer not to see them */
