@@ -335,6 +335,14 @@ path.leaflet-interactive.clear {
 .search-container {
   display: flex;
   flex-direction: column;
+  position: relative;
+}
+
+.search-list {
+  position: absolute;
+  width: 100%;
+  top: 1.75rem;
+  z-index: 1;
 }
 
 .search-item {
