@@ -260,7 +260,7 @@ path.leaflet-interactive.clear {
 #target-nav-container {
   padding: 0.5rem;
   background-color: #f8f8f8;
-  border-bottom: gray solid 1px;
+  border-bottom: #ccc solid 1px;
 }
 
 #outer-search-container {
