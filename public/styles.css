@@ -278,6 +278,12 @@ path.leaflet-interactive.clear {
   flex-direction: column;
 }
 
+.search-label {
+  font-weight: 700;
+  padding-top: 1rem;
+  padding-bottom: 0.25rem;
+}
+
 input[type="search"] {
   border: 1px solid #ccc;
   border-radius: 2px;
