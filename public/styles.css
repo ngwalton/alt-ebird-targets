@@ -351,8 +351,48 @@ input[type="search"]:focus {
   display: block;
 }
 
+#type-list {
+  display: flex;
+  flex-direction: row;
+  padding-bottom: 0.5rem;
+}
+
 .type-radio {
   display: none;
+}
+
+#type-list li {
+  flex: 1 1 auto;
+  display: flex;
+  text-align: center;
+  cursor: pointer;
+}
+
+.type-label {
+  border: 1px solid #ccc;
+  background-color: #fff;
+  padding: 0.75rem;
+  flex: 1 1 auto;
+}
+
+/* could not get :not(:last-child) to work */
+.type-label:not([for="type-species"]) {
+  border-right: none; /* Prevent double borders */
+}
+
+.type-label[for="type-hotspot"] {
+  border-radius: 2px 0 0 2px;
+}
+.type-label[for="type-species"] {
+  border-radius: 0 2px 2px 0;
+}
+
+.type-label:hover {
+  background-color: #e7e7e7;
+}
+
+input[type="radio"]:checked + .type-label {
+  background-color: #ccc;
 }
 
 /* media queries */
