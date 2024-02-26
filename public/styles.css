@@ -263,17 +263,13 @@ path.leaflet-interactive.clear {
 }
 
 .search-container {
-  display: flex;
-  flex-direction: column;
+  display: none;
   position: relative;
 }
 
-.search-input {
-  display: none;
-}
-
-.search-input.show {
-  display: block;
+.search-container.show {
+  display: flex;
+  flex-direction: column;
 }
 
 .search-list {

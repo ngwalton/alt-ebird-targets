@@ -104,12 +104,13 @@ function updateVisibleSearchField() {
   }
 
   const type = getTargetType();
-  const searchInputs = document.querySelectorAll('.search-input');
+  const searchContainers = document.querySelectorAll(
+    '.search-container:not([data-name="county"]',
+  );
 
-  searchInputs.forEach((input) => {
-    if (input.name === 'county') return; // skip county
-    const show = input.name === type;
-    input.classList.toggle('show', show);
+  searchContainers.forEach((container) => {
+    const show = container.dataset.name === type;
+    container.classList.toggle('show', show);
   });
 }
 
