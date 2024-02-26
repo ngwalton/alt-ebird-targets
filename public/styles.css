@@ -382,4 +382,13 @@ path.leaflet-interactive.clear {
   .navbar-links.active {
     display: flex;
   }
+
+  #content-wrapper {
+    flex-direction: column-reverse;
+  }
+
+  #target-wrapper {
+    flex: 0 1 auto;
+    height: 60%;
+  }
 }
