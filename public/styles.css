@@ -345,6 +345,12 @@ path.leaflet-interactive.clear {
   }
 }
 
+@media (max-width: 1000px) {
+  #target-wrapper {
+    flex: 0 0 50%;
+  }
+}
+
 @media (max-width: 500px) {
   .toggle-button {
     display: flex;
