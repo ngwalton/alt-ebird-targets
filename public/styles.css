@@ -163,7 +163,6 @@ path.leaflet-interactive.clear {
   flex: 0 0 30%;
   display: flex;
   flex-direction: column;
-  min-height: 0px;
   overflow-y: scroll;
   overflow-x: hidden;
   min-height: 0; /* for Scroll in box */
