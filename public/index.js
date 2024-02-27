@@ -546,3 +546,16 @@ async function getHotspotsForSpecies(fips, alpha) {
     console.log(`Getting data for: ${alpha}`);
   }
 }
+
+// scroll targets side panel back to top
+// eslint-disable-next-line no-unused-vars -- function is used on button
+function backToTop() {
+  document.querySelector('#target-wrapper').scrollTop = 0;
+}
+
+// When the user scrolls down, show the button
+document.querySelector('#target-wrapper').onscroll = () => {
+  const backToTopButton = document.querySelector('#backToTopButton');
+  const sidePanel = document.querySelector('#target-wrapper');
+  backToTopButton.style.display = sidePanel.scrollTop > 250 ? 'block' : 'none';
+};

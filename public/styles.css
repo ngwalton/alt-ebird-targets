@@ -202,6 +202,33 @@ path.leaflet-interactive.clear {
   color: #6a6a6a;
 }
 
+#backToTopButton {
+  display: none;
+  position: sticky;
+  bottom: 2rem;
+  z-index: 3;
+  padding: 0.25rem 1rem 0.25rem 1rem;
+  margin-right: 0.5rem;
+  align-self: flex-end;
+  color: #4e4e4e;
+  background-color: #f8f8f8;
+  border: #ccc 1px solid;
+  border-radius: 2px;
+  box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+}
+
+#backToTopButton::after {
+  content: url(up.svg);
+  vertical-align: middle;
+  padding-left: 0.2rem;
+}
+
+#backToTopButton:hover {
+  color: #292929;
+  border-color: #bdbdbd;
+}
+
 .pop-header {
   font-size: 1.13rem;
   font-weight: 700;
@@ -457,5 +484,9 @@ input[type="radio"]:checked + .type-label {
   #target-wrapper {
     flex: 0 1 auto;
     height: 60%;
+  }
+
+  #backToTopButton {
+    bottom: 0.5rem;
   }
 }
