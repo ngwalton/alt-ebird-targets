@@ -1,5 +1,9 @@
 /* utility classes */
 
+:root {
+  --input-border-radius: 4px;
+}
+
 /* css reset */
 /* based on Andy Bell's reset at: */
 /* https://gist.github.com/Asjas/4b0736108d56197fce0ec9068145b421 */
@@ -213,7 +217,7 @@ path.leaflet-interactive.clear {
   color: #4e4e4e;
   background-color: #f8f8f8;
   border: #ccc 1px solid;
-  border-radius: 2px;
+  border-radius: var(--input-border-radius);
   box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
   cursor: pointer;
 }
@@ -336,7 +340,7 @@ path.leaflet-interactive.clear {
 
 input[type="search"] {
   border: 1px solid #ccc;
-  border-radius: 2px;
+  border-radius: var(--input-border-radius);
   background-image: url("searchicon.svg");
   background-position: 0.5rem 0.5rem;
   background-repeat: no-repeat;
@@ -406,11 +410,11 @@ input[type="search"]:focus {
 }
 
 #type-list li:first-child label {
-  border-radius: 2px 0 0 2px;
+  border-radius: var(--input-border-radius) 0 0 var(--input-border-radius);
 }
 
 #type-list li:last-child label {
-  border-radius: 0 2px 2px 0;
+  border-radius: 0 var(--input-border-radius) var(--input-border-radius) 0;
 }
 
 .type-label:hover {
