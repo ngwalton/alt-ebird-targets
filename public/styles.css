@@ -417,7 +417,7 @@ input[type="search"]:focus {
   background-color: #e7e7e7;
 }
 
-input[type="radio"]:checked + .type-label {
+.type-radio:checked + label {
   background-color: #ccc;
 }
 
