@@ -121,6 +121,7 @@ async function getEbirdTaxonomy(alpha6s) {
         sciName: x.sciName,
         comName: x.comName,
         speciesCode: x.speciesCode,
+        alpha4s: [...x.bandingCodes, ...x.comNameCodes],
       }));
 
     return taxon;
