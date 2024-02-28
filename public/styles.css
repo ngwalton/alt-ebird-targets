@@ -499,3 +499,31 @@ li:has(.type-radio:checked) + li label {
     bottom: 0.5rem;
   }
 }
+
+@media (max-width: 300px) {
+  #type-list {
+    flex-direction: column;
+  }
+
+  #type-list li:not(:last-child) label {
+    border-bottom: none; /* Prevent double borders */
+    border-right: 1px solid #ccc;
+  }
+
+  #type-list li:first-child label {
+    border-radius: var(--input-border-radius) var(--input-border-radius) 0 0;
+  }
+
+  #type-list li:last-child label {
+    border-radius: 0 0 var(--input-border-radius) var(--input-border-radius);
+  }
+
+  #type-list .type-radio:checked + label {
+    border-right: 1px solid #0070b2;
+  }
+
+  li:has(.type-radio:checked) + li label {
+    border-top: 1px solid #0070b2;
+    border-left: 1px solid #ccc;
+  }
+}
