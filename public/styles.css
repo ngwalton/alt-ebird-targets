@@ -417,12 +417,17 @@ input[type="search"]:focus {
   border-radius: 0 var(--input-border-radius) var(--input-border-radius) 0;
 }
 
-.type-label:hover {
-  background-color: #e7e7e7;
+.type-radio:checked + label {
+  border: 1px solid #0070b2;
+  color: #0070b2;
 }
 
-.type-radio:checked + label {
-  background-color: #ccc;
+li:has(.type-radio:checked) + li label {
+  border-left: 1px solid #0070b2;
+}
+
+.type-label:hover {
+  box-shadow: 0 0 2px rgba(0, 0, 0, 0.2);
 }
 
 /* media queries */
