@@ -391,7 +391,6 @@ input[type="search"]:focus {
   flex: 1 1 auto;
   display: flex;
   text-align: center;
-  cursor: pointer;
 }
 
 .type-label {
@@ -399,6 +398,7 @@ input[type="search"]:focus {
   background-color: #fff;
   padding: 0.75rem;
   flex: 1 1 auto;
+  cursor: pointer;
 }
 
 #type-list li:not(:last-child) label {
