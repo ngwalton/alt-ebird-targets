@@ -383,8 +383,6 @@ function populateHotspotSearch(hotspots) {
   return hotspots;
 }
 
-// to do: this is a place holder. need to finish placing the species in the
-// search ul
 // function to populate the species search
 async function populateSpeciesSearch(fips) {
   try {
