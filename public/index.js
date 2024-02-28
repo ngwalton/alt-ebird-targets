@@ -396,7 +396,7 @@ async function populateSpeciesSearch(fips) {
     deleteAllSearchItems('species');
 
     species.forEach((sp) => {
-      const data = { 'data-fips': fips };
+      const data = { 'data-fips': fips, 'data-alpha4s': sp.alpha4s.join(',') };
       const li = populateLi(sp.speciesCode, sp.comName, 'species', data);
       search.append(li);
     });
