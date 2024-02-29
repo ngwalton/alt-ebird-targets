@@ -177,8 +177,6 @@ path.leaflet-interactive.clear {
   min-height: min-content;
   background-color: white;
   padding: 0 1rem 0 1.5rem;
-  /* transition: 0.5s;
-    transition-timing-function: ease-in-out; */
 }
 
 #targets p {
@@ -368,18 +366,28 @@ path.leaflet-interactive.clear {
   display: none;
 }
 
+.search-list:has(.visible) {
+  border: 1px solid #000;
+  border-radius: var(--input-border-radius);
+  background-color: #fff;
+}
+
+.search-item {
+  padding: 0.5rem;
+}
+
 /* applied to all .visible in .search-list  */
 .search-list > .visible {
-  background-color: #b8b8b8;
+  background-color: #dfdfdf;
 }
 
 /* applied to all but the first .visible in .search-list */
 .search-list > .visible ~ .visible {
-  background-color: #e7e7e7;
+  background-color: #fff;
 }
 
 .search-item.visible:hover {
-  background-color: #cfcfcf;
+  background-color: #dfdfdf;
 }
 
 .search-item.visible {
