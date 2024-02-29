@@ -183,7 +183,7 @@ path.leaflet-interactive.clear {
   margin: 0.75em 0;
 }
 
-#targets p::before {
+.ebird-link::before {
   content: url("externallink.svg");
   vertical-align: middle;
 }

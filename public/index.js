@@ -515,7 +515,7 @@ function parseSpecies(fips, targetsObj) {
 
     // eslint-disable-next-line no-param-reassign
     markup += `<p title="Visit county eBird page for ${sp.comName}">
-        <a href="${link}" target="_blank">
+        <a href="${link}" class="ebird-link" target="_blank">
           <span class="comName">${sp.comName}</span>
           <span class="sciName">${sp.sciName}</span>
         </a>
@@ -532,8 +532,10 @@ function parseHotspots(targetsObj) {
     const link = `https://ebird.org/wi/hotspot/${locId}`;
 
     // eslint-disable-next-line no-param-reassign
-    markup += `<p title="Visit ${locName} on eBird"><a href="${link}" target="_blank">
-      <span class="hotspot">${locName}</span></a></p>`;
+    markup += `<p title="Visit ${locName} on eBird">
+        <a href="${link}" class="ebird-link" target="_blank">
+        <span class="hotspot">${locName}</span></a>
+      </p>`;
 
     return markup;
   }, '');
