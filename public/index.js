@@ -122,6 +122,15 @@ toggleButton.addEventListener('click', () => {
   navbarLinks.classList.toggle('active');
 });
 
+// dynamically set max height of search results to allow for scrolling
+window.addEventListener('resize', () => updateSearchUlHeight());
+
+// use focus here because most of the search inputs have display none on load
+// gaining focus means they are currently visible to calculate an offset
+document.querySelectorAll('.search-input').forEach((input) => {
+  input.addEventListener('focus', () => updateSearchUlHeight());
+});
+
 /* functions */
 
 /* map related functions */
@@ -481,6 +490,19 @@ function enterEvent() {
     code: 'Enter',
     which: 13,
     keyCode: 13,
+  });
+}
+
+function updateSearchUlHeight() {
+  const searchInputs = document.querySelectorAll('.search-input');
+
+  searchInputs.forEach((input) => {
+    const resultUl = input.nextSibling.nextElementSibling;
+    const offset = input.getBoundingClientRect().bottom;
+    const paddingBottom = '0.5rem';
+    const unit = CSS.supports('max-height', '100svh') ? 'svh' : 'vh';
+
+    resultUl.style.maxHeight = `calc(100${unit} - ${paddingBottom} - ${offset}px)`;
   });
 }
 

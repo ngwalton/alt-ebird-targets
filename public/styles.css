@@ -359,6 +359,9 @@ path.leaflet-interactive.clear {
   width: 100%;
   top: 101%;
   z-index: 1;
+  overflow-y: auto;
+  min-height: 0;
+  /* max-height is dynamically set via js */
 }
 
 .search-item {
