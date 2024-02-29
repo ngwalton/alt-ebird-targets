@@ -346,7 +346,7 @@ path.leaflet-interactive.clear {
 input[type="search"] {
   border: 1px solid #ccc;
   border-radius: var(--input-border-radius);
-  background-image: url("searchicon.svg");
+  background-image: url("search.svg");
   background-position: 0.5rem 0.5rem;
   background-repeat: no-repeat;
   padding: 0.25rem 0.25rem 0.25rem 2rem;
