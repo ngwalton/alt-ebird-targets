@@ -525,11 +525,12 @@ function parseSpecies(fips, targetsObj) {
 // function to parse ebird hotspot object and format as html
 function parseHotspots(targetsObj) {
   return targetsObj.reduce((markup, hotspot) => {
-    const link = `https://ebird.org/wi/hotspot/${hotspot.properties.locId}`;
+    const { locId, locName } = hotspot.properties;
+    const link = `https://ebird.org/wi/hotspot/${locId}`;
 
     // eslint-disable-next-line no-param-reassign
     markup += `<p><a href="${link}" target="_blank">
-      <span class="hotspot">${hotspot.properties.locName}</span></a></p>`;
+      <span class="hotspot">${locName}</span></a></p>`;
 
     return markup;
   }, '');
