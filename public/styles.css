@@ -343,7 +343,7 @@ path.leaflet-interactive.clear {
   padding-right: 0.1rem;
 }
 
-input[type="search"] {
+.search-input {
   border: 1px solid #ccc;
   border-radius: var(--input-border-radius);
   background-image: url("search.svg");
@@ -352,7 +352,7 @@ input[type="search"] {
   padding: 0.25rem 0.25rem 0.25rem 2rem;
 }
 
-input[type="search"]:focus {
+.search-input:focus {
   outline: #000 solid 1px;
 }
 
