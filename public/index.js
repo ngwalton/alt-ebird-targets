@@ -240,7 +240,7 @@ function onEachFeature(feature, layer) {
 
   const popupContent = `<div class='pop-header'>
       <a href='https://ebird.org/hotspot/${locId}'
-        target='_blank'>
+        target='_blank' title='Visit ${locName} on eBird'>
         ${locName}
       </a>
     </div>
@@ -514,9 +514,12 @@ function parseSpecies(fips, targetsObj) {
     const link = `https://ebird.org/wi/species/${sp.speciesCode}/${fips}`;
 
     // eslint-disable-next-line no-param-reassign
-    markup += `<p><a href="${link}" target="_blank">
-      <span class="comName">${sp.comName}</span>
-      <span class="sciName">${sp.sciName}</span></a></p>`;
+    markup += `<p title="Visit county eBird page for ${sp.comName}">
+        <a href="${link}" target="_blank">
+          <span class="comName">${sp.comName}</span>
+          <span class="sciName">${sp.sciName}</span>
+        </a>
+      </p>`;
 
     return markup;
   }, '');
@@ -529,7 +532,7 @@ function parseHotspots(targetsObj) {
     const link = `https://ebird.org/wi/hotspot/${locId}`;
 
     // eslint-disable-next-line no-param-reassign
-    markup += `<p><a href="${link}" target="_blank">
+    markup += `<p title="Visit ${locName} on eBird"><a href="${link}" target="_blank">
       <span class="hotspot">${locName}</span></a></p>`;
 
     return markup;
