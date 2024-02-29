@@ -185,6 +185,11 @@ path.leaflet-interactive.clear {
   margin: 0.75em 0;
 }
 
+#targets p::before {
+  content: url("externallink.svg");
+  vertical-align: middle;
+}
+
 #targets a {
   text-decoration: none;
   color: #0070b2;
