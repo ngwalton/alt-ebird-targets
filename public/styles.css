@@ -177,6 +177,7 @@ path.leaflet-interactive.clear {
   min-height: min-content;
   background-color: white;
   padding: 0 1rem;
+  margin-bottom: 3rem; /* allow for scrolling past back to top button */
 }
 
 #targets {
@@ -536,6 +537,10 @@ li:has(.type-radio:checked) + li label {
   #target-wrapper {
     flex: 0 1 auto;
     height: 60%;
+  }
+
+  #targets_bar {
+    margin-bottom: 1.5rem; /* allow for scrolling past back to top button */
   }
 
   #backToTopButton {
