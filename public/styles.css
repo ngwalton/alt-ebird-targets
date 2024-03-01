@@ -176,11 +176,33 @@ path.leaflet-interactive.clear {
   display: flex;
   min-height: min-content;
   background-color: white;
-  padding: 0 0.5rem 0 1rem;
+  padding: 0 1rem;
 }
 
-#targets p {
-  margin: 0.75em 0;
+#targets {
+  width: 100%;
+}
+
+.results-line {
+  display: flex;
+  flex-direction: row;
+  gap: 1rem;
+  flex: 1 1 100%;
+  padding: 0.5em 0;
+  justify-content: space-between;
+  align-items: center;
+  position: relative;
+}
+
+.results-line::after {
+  position: absolute;
+  content: "";
+  background: #f3f2f2;
+  bottom: 0;
+  left: 50%;
+  height: 1px;
+  width: 95%;
+  transform: translate(-50%, -50%);
 }
 
 .ebird-link::before {
@@ -207,6 +229,11 @@ path.leaflet-interactive.clear {
   font-size: 0.875rem;
   font-weight: 400;
   color: #6a6a6a;
+}
+
+.map-icon-link::before {
+  content: url(locationmap.svg);
+  vertical-align: middle;
 }
 
 #backToTopButton {

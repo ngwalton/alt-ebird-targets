@@ -83,6 +83,7 @@ addEnterEventListener(
     getHotspotsForSpecies(species.dataset.fips, species.id).then((hotspots) => {
       clearHotspots();
       addHotspotsToMap(hotspots);
+      addMapLinkListener();
     });
   },
   'includes',
@@ -530,12 +531,17 @@ function parseSpecies(fips, targetsObj) {
     const link = `https://ebird.org/wi/species/${sp.speciesCode}/${fips}`;
 
     // eslint-disable-next-line no-param-reassign
-    markup += `<p title="Visit county eBird page for ${sp.comName}">
-        <a href="${link}" class="ebird-link" target="_blank">
-          <span class="comName">${sp.comName}</span>
-          <span class="sciName">${sp.sciName}</span>
-        </a>
-      </p>`;
+    markup += `<div class="results-line">
+          <a
+            href="${link}"
+            class="ebird-link"
+            target="_blank"
+            title="Visit county eBird page for ${sp.comName}"
+          >
+            <span class="comName">${sp.comName}</span>
+            <span class="sciName">${sp.sciName}</span>
+          </a>
+        </div>`;
 
     return markup;
   }, '');
@@ -548,10 +554,23 @@ function parseHotspots(targetsObj) {
     const link = `https://ebird.org/wi/hotspot/${locId}`;
 
     // eslint-disable-next-line no-param-reassign
-    markup += `<p title="Visit ${locName} on eBird">
-        <a href="${link}" class="ebird-link" target="_blank">
-        <span class="hotspot">${locName}</span></a>
-      </p>`;
+    markup += `<div class="results-line">
+        <a
+          href="${link}"
+          class="ebird-link"
+          target="_blank"
+          title="Visit ${locName} on eBird"
+        >
+          <span class="hotspot">${locName}</span>
+        </a>
+        <a
+          href="${locId}"
+          class="map-icon-link"
+          data-locid="${locId}"
+          title="Show ${locName} on map"
+        >
+        </a>
+      </div>`;
 
     return markup;
   }, '');
@@ -601,3 +620,17 @@ document.querySelector('#target-wrapper').onscroll = () => {
   const sidePanel = document.querySelector('#target-wrapper');
   backToTopButton.style.display = sidePanel.scrollTop > 250 ? 'block' : 'none';
 };
+
+function addMapLinkListener() {
+  document.querySelectorAll('.map-icon-link').forEach((link) => {
+    link.addEventListener('click', (event) => {
+      event.preventDefault();
+
+      map.eachLayer((layer) => {
+        if (layer.feature?.properties?.locId === link.dataset.locid) {
+          layer.fire('click');
+        }
+      });
+    });
+  });
+}
