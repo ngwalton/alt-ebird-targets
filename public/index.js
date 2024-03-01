@@ -17,9 +17,13 @@ const basemap = L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
 
 basemap.addTo(map);
 
-// add scale and zoom widgets
+// add scale widget
 L.control.scale().addTo(map);
-L.control.zoom({ position: 'topright' }).addTo(map);
+
+// add zoom widget unless on a small touch screen
+if (!smallTouchScreen()) {
+  L.control.zoom({ position: 'topright' }).addTo(map);
+}
 
 // uncomment this to expose coBnds to global env for testing
 // const coBnds;
@@ -303,6 +307,18 @@ function addHotspotsToMap(hotspots) {
   const hotspotGeo = L.geoJSON(hotspots, { onEachFeature });
 
   hotspotGeo.addTo(map);
+}
+
+// function to check if at a small touch screen
+function smallTouchScreen() {
+  const smallView = window.innerWidth < 500;
+  const touchScreen = [
+    'ontouchstart' in window,
+    navigator.maxTouchPoints,
+    navigator.msMaxTouchPoints,
+  ].some((val) => val);
+
+  return smallView && touchScreen;
 }
 
 /* eslint-enable no-undef -- done using L */
