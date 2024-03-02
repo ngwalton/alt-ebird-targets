@@ -564,6 +564,10 @@ li:has(.type-radio:checked) + li label {
     flex-direction: column-reverse;
   }
 
+  #map {
+    border-bottom: 1px solid #ccc;
+  }
+
   #target-wrapper {
     flex: 0 1 auto;
     height: 60%;
