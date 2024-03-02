@@ -1,0 +1,106 @@
+<div id="target-wrapper">
+  <div class="container" id="target-nav-container">
+    <div id="type">
+      <form action="" id="type-radio-form">
+        <!-- intentionally no matching for="type-radios"
+                just using it as a label for the type radio group -->
+        <label class="search-label" for="type-radios"> Target type </label>
+        <ul id="type-list" role="list">
+          <li>
+            <input
+              class="type-radio"
+              value="hotspot"
+              type="radio"
+              name="type-radio"
+              id="type-hotspot"
+              checked
+            />
+            <label
+              class="type-label"
+              for="type-hotspot"
+              title="List unconfirmed species for a given hotspot"
+            >
+              Hotspot
+            </label>
+          </li>
+          <!-- <li>
+                    <input
+                      class="type-radio"
+                      value="county"
+                      type="radio"
+                      name="type-radio"
+                      id="type-county"
+                    />
+                    <label
+                      class="type-label"
+                      for="type-county"
+                      title="List unconfirmed species for a given county"
+                    >
+                      County
+                    </label>
+                  </li> -->
+          <li>
+            <input
+              class="type-radio"
+              value="species"
+              type="radio"
+              name="type-radio"
+              id="type-species"
+            />
+            <label
+              class="type-label"
+              for="type-species"
+              title="List hotspots where a given species is unconfirmed"
+            >
+              Species
+            </label>
+          </li>
+        </ul>
+      </form>
+    </div>
+
+    <form autocomplete="off" id="outer-search-container">
+      <div class="search-container show" data-name="county">
+        <label class="search-label" for="county-input">
+          Wisconsin County
+        </label>
+        <input
+          class="search-input"
+          type="search"
+          name="county"
+          id="county-input"
+          placeholder="Enter a county"
+        />
+        <ul class="search-list" id="county-search-list"></ul>
+      </div>
+      <div class="search-container" data-name="hotspot">
+        <label class="search-label" for="hotspot-input">Hotspot</label>
+        <input
+          class="search-input"
+          type="search"
+          name="hotspot"
+          id="hotspot-input"
+          placeholder="Enter a hotspot"
+        />
+        <ul class="search-list" id="hotspot-search-list"></ul>
+      </div>
+      <div class="search-container" data-name="species">
+        <label class="search-label" for="species-input">Species</label>
+        <input
+          class="search-input"
+          type="search"
+          name="species"
+          id="species-input"
+          placeholder="Enter a species"
+        />
+        <ul class="search-list" id="species-search-list"></ul>
+      </div>
+    </form>
+  </div>
+
+  <div id="targets_bar">
+    <div id="targets"></div>
+  </div>
+
+  <button onclick="backToTop()" id="backToTopButton">Go to top</button>
+</div>
