@@ -69,6 +69,14 @@ body {
   display: flex;
 }
 
+em {
+  font-style: italic;
+}
+
+strong {
+  font-weight: 600;
+}
+
 .navbar {
   display: flex;
   justify-content: space-between;
