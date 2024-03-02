@@ -131,13 +131,43 @@ body {
   flex-direction: column;
 }
 
+.tab {
+  display: none;
+}
+
+.tab.show {
+  display: flex;
+}
+
 #content-wrapper {
   flex: auto;
-  display: flex;
   flex-direction: row;
+  min-height: 0; /* for scroll in box */
+}
 
-  /* for Scroll in box */
-  min-height: 0;
+#about {
+  max-width: 80ch;
+  margin: 2rem auto;
+  padding: 1rem;
+}
+
+h2 {
+  font-size: 1.75rem;
+  font-weight: 700;
+  padding-bottom: 0.5rem;
+  margin-bottom: 1.25rem;
+  border-bottom: 1px solid #ccc;
+}
+
+#about ol,
+#about ul,
+#about p {
+  margin-bottom: 1rem;
+}
+
+#about ol,
+#about ul {
+  padding-left: 2rem;
 }
 
 #map {

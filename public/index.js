@@ -136,6 +136,17 @@ document.querySelectorAll('.search-input').forEach((input) => {
   input.addEventListener('focus', () => updateSearchUlHeight());
 });
 
+document.querySelectorAll('.navbar-links a').forEach((link) => {
+  link.addEventListener('click', (event) => {
+    event.preventDefault();
+
+    document.querySelectorAll('.tab').forEach((tab) => {
+      const chosen = link.getAttribute('href') === tab.dataset.page;
+      tab.classList.toggle('show', chosen);
+    });
+  });
+});
+
 /* functions */
 
 /* map related functions */

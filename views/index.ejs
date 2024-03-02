@@ -29,13 +29,17 @@
         </a>
         <div class="navbar-links">
           <ul role="list">
-            <li><a href="#">Targets</a></li>
-            <li><a href="#">About</a></li>
+            <li><a href="targets">Targets</a></li>
+            <li><a href="about">About</a></li>
           </ul>
         </div>
       </nav>
 
-      <div id="content-wrapper">
+      <div class="tab" data-page="about" id="about-wrapper">
+        <%- include('partials/about'); %>
+      </div>
+
+      <div class="tab show" data-page="targets" id="content-wrapper">
         <div id="target-wrapper">
           <div class="container" id="target-nav-container">
             <div id="type">
