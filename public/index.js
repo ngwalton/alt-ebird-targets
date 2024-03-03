@@ -145,6 +145,13 @@ document.querySelectorAll('.navbar-links a').forEach((link) => {
       const chosen = link.getAttribute('href') === tab.dataset.page;
       tab.classList.toggle('show', chosen);
     });
+
+    // close the menu if hamburger is visible
+    const hamburger = document.querySelector('.toggle-button');
+    const hamburgerVis = window.getComputedStyle(hamburger).display !== 'none';
+    if (hamburgerVis) {
+      hamburger.click();
+    }
   });
 });
 
